@@ -8,7 +8,7 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Recupera Poste',
+      title: 'Recupera Postes',
       theme: theme,
     ).modular();
   }
