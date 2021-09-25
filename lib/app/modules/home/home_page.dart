@@ -16,13 +16,13 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter'),
+        title: const Text('Counter'),
       ),
       body: ScopedBuilder<HomeStore, Exception, int>(
         store: store,
         onState: (_, counter) {
           return Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Center(child: Text('$counter')),
           );
         },
