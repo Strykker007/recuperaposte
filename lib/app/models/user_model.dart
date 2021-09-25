@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 class UserModel {
-  String name;
-  String username;
-  String avatarUrl;
-  String email;
-  bool isAdmin;
+  late String? name;
+  late String? username;
+  late String? avatarUrl;
+  late String? email;
+  late bool? isAdmin;
   UserModel({
-    required this.name,
-    required this.username,
-    required this.avatarUrl,
-    required this.email,
-    required this.isAdmin,
+    this.name,
+    this.username,
+    this.avatarUrl,
+    this.email,
+    this.isAdmin,
   });
 
   Map<String, dynamic> toMap() {
