@@ -56,9 +56,7 @@ class LoginPageState extends State<LoginPage> {
                         ),
                         child: const Text('Login'),
                       ),
-                      onTap: () {
-                        print('Loguei');
-                      },
+                      onTap: () {},
                     )
                   ],
                 ),
