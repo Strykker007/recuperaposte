@@ -28,7 +28,7 @@ class LoginPageState extends State<LoginPage> {
         children: [
           Expanded(
             child: Container(
-              margin: const EdgeInsets.all(15),
+              margin: const EdgeInsets.all(50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -43,7 +43,7 @@ class LoginPageState extends State<LoginPage> {
                       decoration: const InputDecoration(hintText: 'senha'),
                     ),
                     const SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     GestureDetector(
                       child: Container(
