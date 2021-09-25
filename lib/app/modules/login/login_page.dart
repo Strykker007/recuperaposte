@@ -28,6 +28,7 @@ class LoginPageState extends State<LoginPage> {
         children: [
           Expanded(
             child: Container(
+              alignment: Alignment.center,
               margin: const EdgeInsets.all(50),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
@@ -35,9 +36,13 @@ class LoginPageState extends State<LoginPage> {
               child: Form(
                 key: _formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFormField(
                       decoration: const InputDecoration(hintText: 'Usuário'),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     TextFormField(
                       decoration: const InputDecoration(hintText: 'senha'),
@@ -48,8 +53,8 @@ class LoginPageState extends State<LoginPage> {
                     GestureDetector(
                       child: Container(
                         alignment: Alignment.center,
-                        height: 40,
-                        width: 80,
+                        height: 50,
+                        width: 170,
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(15),
