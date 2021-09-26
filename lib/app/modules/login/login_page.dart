@@ -4,6 +4,8 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
+import 'package:recuperaposte/app/shared/common_button_widget.dart';
+import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
 class LoginPage extends StatefulWidget {
   final String title;
@@ -14,136 +16,6 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends ModularState<LoginPage, LoginStore> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-
-  Widget _body() {
-    return Column(
-      children: [
-        /*Container(
-            width: 200,
-            height: 200,
-            child: Image.asset('assets/imagens/logo.png'),
-            ),*/
-        Expanded(
-          child: Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.all(50),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    autofocus: true,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.login),
-                      labelText: 'Usuário',
-                    ),
-                    validator: (text) {
-                      if (text!.isEmpty) {
-                        return 'Este campo não pode ser vazio';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock),
-                      labelText: 'Senha',
-                    ),
-                    validator: (text) {
-                      if (text!.isEmpty) {
-                        return 'Este campo não pode ser vazio';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  Container(
-                    height: 40,
-                    alignment: Alignment.centerRight,
-                    // ignore: deprecated_member_use
-                    child: FlatButton(
-                      child: const Text(
-                        'Recuperar Senha',
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TripleBuilder<LoginStore, Exception, UserModel>(
-                    builder: (_, triple) {
-                      return GestureDetector(
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 50,
-                          width: 170,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: store.isLoading
-                              ? CircularProgressIndicator(
-                                  color: Theme.of(context).backgroundColor)
-                              : const Text('Login'),
-                        ),
-                        onTap: store.isLoading
-                            ? null
-                            : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await store.login();
-                                }
-                              },
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TripleBuilder<LoginStore, Exception, UserModel>(
-                    builder: (_, triple) {
-                      return GestureDetector(
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 50,
-                          width: 170,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: store.isLoading
-                              ? CircularProgressIndicator(
-                                  color: Theme.of(context).backgroundColor)
-                              : const Text('Cadastrar'),
-                        ),
-                        onTap: store.isLoading
-                            ? null
-                            : () async {
-                                await store.registration();
-                              },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +33,101 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
           Container(
             color: Colors.black.withOpacity(0.1),
           ),
-          _body(),
+          _buildLoginBody(),
         ],
       ),
+    );
+  }
+
+  Widget _buildLoginBody() {
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.all(50),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFieldWidget(
+                    textInputType: TextInputType.emailAddress,
+                    prefixIcon: const Icon(Icons.login),
+                    label: 'Usuário',
+                    validator: (text) {
+                      if (text!.isEmpty) {
+                        return 'Este campo não pode ser vazio';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFieldWidget(
+                    obscureText: true,
+                    prefixIcon: const Icon(Icons.lock),
+                    label: 'Senha',
+                    validator: (text) {
+                      if (text!.isEmpty) {
+                        return 'Este campo não pode ser vazio';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  Container(
+                    height: 40,
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      child: const Text(
+                        'Recuperar Senha',
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextButton(
+                    child: Text(
+                      'Não tem cadastro? Então cadastre-se!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize:
+                            Theme.of(context).textTheme.subtitle2!.fontSize,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/signup');
+                    },
+                  ),
+                  TripleBuilder<LoginStore, Exception, UserModel>(
+                    builder: (_, triple) {
+                      return CommonButtonWidget(
+                        onTap: store.isLoading
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await store.login();
+                                }
+                              },
+                        label: 'Login',
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }

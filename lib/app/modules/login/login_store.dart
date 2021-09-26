@@ -19,12 +19,4 @@ class LoginStore extends NotifierStore<Exception, UserModel> {
 
     setLoading(false);
   }
-
-  Future<void> registration() async {
-    setLoading(true);
-
-    await Future.delayed(const Duration(seconds: 3));
-
-    setLoading(false);
-  }
 }
