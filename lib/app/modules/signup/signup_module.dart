@@ -10,6 +10,6 @@ class SignupModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/signup', child: (_, args) => const SignupPage()),
+    ChildRoute(Modular.initialRoute, child: (_, args) => const SignupPage()),
   ];
 }

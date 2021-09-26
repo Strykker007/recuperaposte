@@ -36,7 +36,9 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
             top: MediaQuery.of(context).size.height * 0.1,
             left: MediaQuery.of(context).size.width * 0.05,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pop();
+              },
               child: Row(
                 children: [
                   Icon(
@@ -91,9 +93,9 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                       height: 15,
                     ),
                     TextFieldWidget(
-                      textInputType: TextInputType.emailAddress,
+                      textInputType: TextInputType.text,
                       prefixIcon: const Icon(Icons.login),
-                      label: 'Usuário',
+                      label: 'Nome',
                       validator: (text) {
                         if (text!.isEmpty) {
                           return 'Este campo não pode ser vazio';
@@ -106,9 +108,10 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                       height: 10,
                     ),
                     TextFieldWidget(
+                      textInputType: TextInputType.emailAddress,
                       obscureText: true,
                       prefixIcon: const Icon(Icons.lock),
-                      label: 'Senha',
+                      label: 'E-mail',
                       validator: (text) {
                         if (text!.isEmpty) {
                           return 'Este campo não pode ser vazio';
