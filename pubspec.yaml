@@ -13,12 +13,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-
   cupertino_icons: ^1.0.2
   flutter_modular: ^4.0.1+2
   flutter_triple: ^1.2.4+3
+  firebase_auth: ^3.1.1
+  cloud_firestore: ^2.5.3
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +30,11 @@ flutter:
 
 
   uses-material-design: true
+
+
+  assets:
+    - assets/imagens/logo.png
+    - assets/imagens/background_login.png
 
 
 
