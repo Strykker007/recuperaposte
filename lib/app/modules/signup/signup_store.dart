@@ -11,7 +11,7 @@ class SignupStore extends NotifierStore<Exception, UserModel> {
   Future<void> signup(String password) async {
     setLoading(true);
 
-    await _repository.signup(email: state.email, password: password);
+    await _repository.signup(userModel: state, password: password);
 
     setLoading(false);
   }
