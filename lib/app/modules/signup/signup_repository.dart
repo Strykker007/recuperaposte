@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class SignupRepository extends Disposable {
-  Future<void> signup() async {
+  Future<void> signup({email, password}) async {
     try {
       // ignore: unused_local_variable
       UserCredential userCredential = await FirebaseAuth.instance
