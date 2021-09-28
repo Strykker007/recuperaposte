@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
+  final TextEditingController? controller;
   final bool autoFocus;
   final String? initialValue;
   final Widget? prefixIcon;
@@ -8,6 +9,8 @@ class TextFieldWidget extends StatelessWidget {
   final bool obscureText;
   final TextInputType? textInputType;
   final String label;
+  final Function(String?)? onSaved;
+  final Function(String?)? onChanged;
   const TextFieldWidget({
     Key? key,
     this.autoFocus = false,
@@ -17,13 +20,18 @@ class TextFieldWidget extends StatelessWidget {
     this.obscureText = false,
     this.textInputType = TextInputType.text,
     this.label = '',
+    this.controller,
+    this.onSaved,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       autofocus: autoFocus,
       keyboardType: textInputType,
+      obscureText: obscureText,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -32,6 +40,8 @@ class TextFieldWidget extends StatelessWidget {
         labelText: label,
       ),
       validator: validator,
+      onSaved: onSaved,
+      onChanged: onChanged,
     );
   }
 }

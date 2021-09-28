@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:recuperaposte/app/models/user_model.dart';
+import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';

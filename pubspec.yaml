@@ -17,6 +17,7 @@ dependencies:
   flutter_modular: ^4.0.1+2
   flutter_triple: ^1.2.4+3
   firebase_auth: ^3.1.1
+  cloud_firestore: ^2.5.3
 
 dev_dependencies:
   flutter_test:
