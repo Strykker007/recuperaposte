@@ -1,21 +1,30 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:recuperaposte/app/core/models/user_model.dart';
 
 class SignupRepository extends Disposable {
-  Future<bool?> signup({email, password}) async {
+  Future<void> signup(
+      {required UserModel userModel, required String password}) async {
     try {
+      UserCredential userCredential;
       // ignore: unused_local_variable
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: "barry.allen@example.com",
-              password: "SuperSecretPassword!");
-      if (userCredential.credential != null) {
-        return true;
-      } else {
-        return false;
-      }
+              password: "SuperSecretPassword!")
+          .then(
+        (credential) {
+          userCredential = credential;
+
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc()
+              .set(userModel.toMap());
+        },
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         log('The password provided is too weak.');

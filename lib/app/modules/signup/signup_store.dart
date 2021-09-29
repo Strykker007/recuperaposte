@@ -14,9 +14,9 @@ class SignupStore extends NotifierStore<Exception, UserModel> {
     setLoading(true);
 
     await _repository
-        .signup(email: state.email, password: password)
-        .then((value) {
-      log('usuário criado com sucesso!');
+        .signup(userModel: state, password: password)
+        .then((userModel) {
+      update(userModel as UserModel);
     }).catchError(
       (onError) {
         setError(onError);

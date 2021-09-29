@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
@@ -236,7 +238,13 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                               : () async {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    await store.signup(password1.text);
+                                    await store
+                                        .signup(password1.text)
+                                        .then((value) {
+                                      Navigator.of(context).pushNamed('/home');
+                                    }).catchError((onError) {
+                                      log('ocorreu um erro ao tentar criar o usuário');
+                                    });
                                   }
                                 },
                           label: 'Cadastrar',
