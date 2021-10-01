@@ -7,7 +7,7 @@ class SignupModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.lazySingleton((i) => SignupStore()),
-    Bind.lazySingleton((i) => SignupRepository()),
+
   ];
 
   @override

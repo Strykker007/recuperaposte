@@ -238,7 +238,14 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                               : () async {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    await store.signup(password1.text);
+                                    await store
+                                        .signup(password1.text)
+                                        .then((value) {
+                                      log('usuario criado');
+                                      // Navigator.of(context).pushNamed('/home');
+                                    }).catchError((onError) {
+                                      log('ocorreu um erro ao tentar criar o usuário');
+                                    });
                                   }
                                 },
                           label: 'Cadastrar',
