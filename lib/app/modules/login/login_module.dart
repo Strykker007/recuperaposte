@@ -1,3 +1,4 @@
+import 'package:recuperaposte/app/modules/home/home_module.dart';
 import 'package:recuperaposte/app/modules/login/login_Page.dart';
 import 'package:recuperaposte/app/modules/login/login_repository.dart';
 import 'package:recuperaposte/app/modules/login/login_store.dart';
@@ -19,5 +20,6 @@ class LoginModule extends Module {
       module: SignupModule(),
       transition: TransitionType.fadeIn,
     ),
+    ModuleRoute('/home', module: HomeModule()),
   ];
 }
