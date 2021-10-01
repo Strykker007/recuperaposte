@@ -241,7 +241,8 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                                     await store
                                         .signup(password1.text)
                                         .then((value) {
-                                      Navigator.of(context).pushNamed('/home');
+                                      log('usuario criado');
+                                      // Navigator.of(context).pushNamed('/home');
                                     }).catchError((onError) {
                                       log('ocorreu um erro ao tentar criar o usuário');
                                     });

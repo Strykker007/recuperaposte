@@ -10,11 +10,13 @@ class SignupRepository extends Disposable {
       {required UserModel userModel, required String password}) async {
     try {
       UserCredential userCredential;
+      log('criando usuario...');
       // ignore: unused_local_variable
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: "barry.allen@example.com",
-              password: "SuperSecretPassword!")
+        email: userModel.email.toString(),
+        password: password,
+      )
           .then(
         (credential) {
           userCredential = credential;
@@ -24,7 +26,9 @@ class SignupRepository extends Disposable {
               .doc()
               .set(userModel.toMap());
         },
-      );
+      ).catchError((onError) {
+        throw onError;
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         log('The password provided is too weak.');
