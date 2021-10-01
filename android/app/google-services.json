@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "405456936200",
+    "project_id": "recuperaposte",
+    "storage_bucket": "recuperaposte.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405456936200:android:6b84cbc030d714c9d9e0bd",
+        "android_client_info": {
+          "package_name": "com.example.recuperaposte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405456936200-6svlooq4erhgm8r5m3v1au3b7qt0sf57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4JmCEiYAvHg-v_XKWpw33tmNTu2MJiOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405456936200-6svlooq4erhgm8r5m3v1au3b7qt0sf57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "405456936200-gm6muuvd9sacu4e6onolq8m3q3br6cgq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "recuperaposte"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
