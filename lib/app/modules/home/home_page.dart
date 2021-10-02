@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
 import 'home_store.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,8 +21,8 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
               currentAccountPicture: ClipOval(
                 child: Image.asset("assets/imagens/logo.png"),
               ),
-              accountName: Text('Usuario'),
-              accountEmail: Text('email@hotmail.com'),
+              accountName: const Text('Usuario'),
+              accountEmail: const Text('email@hotmail.com'),
             ),
             ListTile(
               leading: const Icon(Icons.home),
