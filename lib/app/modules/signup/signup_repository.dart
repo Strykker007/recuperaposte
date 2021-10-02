@@ -9,7 +9,7 @@ class SignupRepository extends Disposable {
   Future<void> signup(
       {required UserModel userModel, required String password}) async {
     try {
-      // UserCredential userCredential;
+      UserCredential userCredential;
       log('criando usuario...');
       // ignore: unused_local_variable
       await FirebaseAuth.instance
