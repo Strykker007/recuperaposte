@@ -101,7 +101,9 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                       child: const Text(
                         'Recuperar Senha',
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/passwordRecover');
+                      },
                     ),
                   ),
                   const SizedBox(

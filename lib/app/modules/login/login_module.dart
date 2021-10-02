@@ -5,6 +5,8 @@ import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/modules/signup/signup_module.dart';
 
+import 'pages/password_recovery_page.dart';
+
 class LoginModule extends Module {
   @override
   final List<Bind> binds = [
@@ -15,6 +17,8 @@ class LoginModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute(Modular.initialRoute, child: (_, args) => const LoginPage()),
+    ChildRoute('/passwordRecover',
+        child: (_, args) => const PasswordRecoverPage()),
     ModuleRoute(
       '/signup',
       module: SignupModule(),
