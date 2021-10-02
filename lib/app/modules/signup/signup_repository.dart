@@ -23,7 +23,7 @@ class SignupRepository extends Disposable {
 
           FirebaseFirestore.instance
               .collection('users')
-              .doc()
+              .doc(userCredential.user!.uid)
               .set(userModel.toMap());
         },
       ).catchError((onError) {

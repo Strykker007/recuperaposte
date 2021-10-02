@@ -20,6 +20,10 @@ class LoginModule extends Module {
       module: SignupModule(),
       transition: TransitionType.fadeIn,
     ),
-    ModuleRoute('/home', module: HomeModule()),
+    ModuleRoute(
+      '/home',
+      module: HomeModule(),
+      transition: TransitionType.fadeIn,
+    ),
   ];
 }

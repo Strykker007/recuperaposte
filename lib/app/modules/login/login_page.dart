@@ -19,6 +19,8 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends ModularState<LoginPage, LoginStore> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,11 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                   TextFieldWidget(
                     textInputType: TextInputType.emailAddress,
                     prefixIcon: const Icon(Icons.login),
-                    label: 'Usuário',
+                    label: 'E-mail',
+                    controller: emailController,
+                    onSaved: (email) {
+                      emailController.text = email.toString();
+                    },
                     validator: (text) {
                       if (text!.isEmpty) {
                         return 'Este campo não pode ser vazio';
@@ -86,6 +92,10 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                     obscureText: true,
                     prefixIcon: const Icon(Icons.lock),
                     label: 'Senha',
+                    controller: passwordController,
+                    onSaved: (password) {
+                      passwordController.text = password.toString();
+                    },
                     validator: (text) {
                       if (text!.isEmpty) {
                         return 'Este campo não pode ser vazio';
@@ -118,7 +128,7 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/signup');
+                      Navigator.of(context).pushReplacementNamed('/signup');
                     },
                   ),
                   TripleBuilder<LoginStore, Exception, UserModel>(
@@ -127,10 +137,22 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                         onTap: store.isLoading
                             ? null
                             : () async {
-                                // if (_formKey.currentState!.validate()) {
-                                log('login');
-                                await store.login();
-                                // }
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  await store
+                                      .login(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  )
+                                      .then(
+                                    (value) {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed('/home');
+                                    },
+                                  ).catchError((onError) {
+                                    log(onError.toString());
+                                  });
+                                }
                               },
                         label: 'Login',
                       );
