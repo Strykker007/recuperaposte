@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
@@ -5,6 +7,7 @@ import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
+import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,21 +23,31 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    Widget loading = Container();
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Image.asset(
-              'assets/imagens/background_login.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            color: Colors.black.withOpacity(0.1),
-          ),
-          _buildLoginBody(),
-        ],
+      body: TripleBuilder<LoginStore, Exception, UserModel>(
+        store: store,
+        builder: (_, triple) {
+          if (triple.isLoading) {
+            loading = const LoadingWidget();
+          }
+          return Stack(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Image.asset(
+                  'assets/imagens/background_login.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Container(
+                color: Colors.black.withOpacity(0.1),
+              ),
+              _buildLoginBody(),
+              loading,
+            ],
+          );
+        },
       ),
     );
   }
@@ -114,9 +127,10 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                         onTap: store.isLoading
                             ? null
                             : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await store.login();
-                                }
+                                // if (_formKey.currentState!.validate()) {
+                                log('login');
+                                await store.login();
+                                // }
                               },
                         label: 'Login',
                       );
