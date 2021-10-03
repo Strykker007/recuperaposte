@@ -12,7 +12,8 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  final LoginStore store = Modular.get<LoginStore>();
+  final UserModel model = Modular.get();
+  final LoginStore store = Modular.get();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -24,8 +25,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 currentAccountPicture: ClipOval(
                   child: Image.asset("assets/imagens/logo.png"),
                 ),
-                accountName: Text(triple.state.name.toString()),
-                accountEmail: Text(triple.state.email.toString()),
+                accountName: Text(model.name.toString()),
+                accountEmail: Text(model.email.toString()),
               );
             },
           ),
