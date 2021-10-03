@@ -8,6 +8,7 @@ import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PasswordRecoverPage extends StatefulWidget {
   const PasswordRecoverPage({Key? key}) : super(key: key);
@@ -80,7 +81,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Recuperação de Senha',
+                                  'Esqueceu a sua senha?',
                                   style: TextStyle(
                                     fontSize: Theme.of(context)
                                         .textTheme
@@ -96,7 +97,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                                   ),
                                 ),
                                 Text(
-                                  'Campo de E-mail:',
+                                  'Digite seu e-mail, enviaremos uma solicitação para a troca de sua senha:',
                                   style: TextStyle(
                                     fontSize: Theme.of(context)
                                         .textTheme
@@ -137,8 +138,22 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                                               FirebaseAuth.instance
                                                   .sendPasswordResetEmail(
                                                       email:
-                                                          editController.text);
+                                                          editController.text)
+                                                  .then((value) {
+                                                Fluttertoast.showToast(
+                                                    msg: "E-mail enviando",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    timeInSecForIosWeb: 2,
+                                                    backgroundColor:
+                                                        Colors.blue,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0);
+                                              });
+
                                               Navigator.of(context).pop();
+
+                                              await store.login();
                                             },
                                       label: 'Enviar ao E-mail',
                                     );
