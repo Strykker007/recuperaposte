@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -7,7 +9,6 @@ import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class PasswordRecoverPage extends StatefulWidget {
@@ -18,9 +19,10 @@ class PasswordRecoverPage extends StatefulWidget {
 }
 
 class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
-  TextEditingController editController = TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
   Widget loading = Container();
   final LoginStore store = Modular.get();
+  final GlobalKey<FormState> _formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,46 +78,50 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                         ),
                         child: SingleChildScrollView(
                           physics: const NeverScrollableScrollPhysics(),
-                          child: Form(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Esqueceu a sua senha?',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .headline6!
-                                        .fontSize,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Esqueceu a sua senha?',
+                                style: TextStyle(
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .headline6!
+                                      .fontSize,
+                                  color: Theme.of(context).primaryColor,
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                  child: Divider(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                                child: Divider(
+                                  color: Theme.of(context).primaryColor,
                                 ),
-                                Text(
-                                  'Digite seu e-mail, enviaremos uma solicitação para a troca de sua senha:',
-                                  style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .headline6!
-                                        .fontSize,
-                                    color: Theme.of(context).primaryColor,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                              ),
+                              Text(
+                                'Digite seu e-mail, enviaremos uma solicitação para a troca de sua senha:',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .headline6!
+                                      .fontSize,
+                                  color: Theme.of(context).primaryColor,
+                                  decoration: TextDecoration.underline,
                                 ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                TextFieldWidget(
-                                  controller: editController,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Form(
+                                key: _formKey,
+                                child: TextFieldWidget(
+                                  controller: emailTextController,
                                   textInputType: TextInputType.emailAddress,
                                   prefixIcon: const Icon(Icons.home),
                                   label: 'E-mail',
-                                  onChanged: (value) {},
+                                  onSaved: (email) {
+                                    emailTextController.text = email.toString();
+                                  },
                                   validator: (text) {
                                     if (text!.isEmpty ||
                                         !text.contains('@') ||
@@ -126,21 +132,21 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                                     }
                                   },
                                 ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                TripleBuilder<LoginStore, Exception, UserModel>(
-                                  builder: (_, triple) {
-                                    return CommonButtonWidget(
-                                      onTap: store.isLoading
-                                          ? null
-                                          : () async {
-                                              FirebaseAuth.instance
-                                                  .sendPasswordResetEmail(
-                                                      email:
-                                                          editController.text)
-                                                  .then((value) {
-                                                Fluttertoast.showToast(
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              TripleBuilder<LoginStore, Exception, UserModel>(
+                                builder: (_, triple) {
+                                  return CommonButtonWidget(
+                                    onTap: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        store
+                                            .passwordRecovery(
+                                                emailTextController.text)
+                                            .then(
+                                          (value) async {
+                                            await Fluttertoast.showToast(
                                                     msg: "E-mail enviando",
                                                     toastLength:
                                                         Toast.LENGTH_SHORT,
@@ -148,19 +154,21 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                                                     backgroundColor:
                                                         Colors.blue,
                                                     textColor: Colors.white,
-                                                    fontSize: 16.0);
-                                              });
-
+                                                    fontSize: 16.0)
+                                                .then((value) {
                                               Navigator.of(context).pop();
-
-                                              await store.login();
-                                            },
-                                      label: 'Enviar ao E-mail',
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                                            }).catchError((onError) {
+                                              log(onError.toString());
+                                            });
+                                          },
+                                        );
+                                      }
+                                    },
+                                    label: 'Recuperar Senha',
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
