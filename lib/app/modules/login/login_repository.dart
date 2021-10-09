@@ -1,14 +1,10 @@
-<<<<<<< HEAD
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-=======
->>>>>>> create_password_recover_page
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class LoginRepository extends Disposable {
-<<<<<<< HEAD
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Future<Map<String, dynamic>?> login(
       {required String email, required String password}) async {
@@ -36,6 +32,14 @@ class LoginRepository extends Disposable {
     }
   }
 
+  Future<void> passwordRecovery(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> logout() async {
     try {
       await _auth.signOut();
@@ -45,13 +49,6 @@ class LoginRepository extends Disposable {
       } else if (e.code == 'wrong-password') {
         log('Wrong password provided for that user.');
       }
-=======
-  Future<void> passwordRecovery(String email) async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-    } catch (e) {
-      rethrow;
->>>>>>> create_password_recover_page
     }
   }
 

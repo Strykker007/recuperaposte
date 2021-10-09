@@ -9,7 +9,6 @@ import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class PasswordRecoverPage extends StatefulWidget {
   const PasswordRecoverPage({Key? key}) : super(key: key);
@@ -146,20 +145,16 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
                                                 emailTextController.text)
                                             .then(
                                           (value) async {
-                                            await Fluttertoast.showToast(
-                                                    msg: "E-mail enviando",
-                                                    toastLength:
-                                                        Toast.LENGTH_SHORT,
-                                                    timeInSecForIosWeb: 2,
-                                                    backgroundColor:
-                                                        Colors.blue,
-                                                    textColor: Colors.white,
-                                                    fontSize: 16.0)
-                                                .then((value) {
-                                              Navigator.of(context).pop();
-                                            }).catchError((onError) {
-                                              log(onError.toString());
-                                            });
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) {
+                                                return Container();
+                                              },
+                                            ).catchError(
+                                              (onError) {
+                                                log(onError.toString());
+                                              },
+                                            );
                                           },
                                         );
                                       }
