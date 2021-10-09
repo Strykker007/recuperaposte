@@ -10,6 +10,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       title: 'Recupera Poste',
       theme: theme,
+      debugShowCheckedModeBanner: false,
     ).modular();
   }
 }

@@ -1,12 +1,23 @@
 // import 'package:flutter_modular/flutter_modular.dart';
+<<<<<<< HEAD
+=======
+import 'package:firebase_auth/firebase_auth.dart';
+>>>>>>> create_password_recover_page
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/login_repository.dart';
+<<<<<<< HEAD
 // import 'package:recuperaposte/app/modules/login/login_repository.dart';
 
 class LoginStore extends NotifierStore<Exception, UserModel> {
   final LoginRepository _repository = Modular.get();
+=======
+
+class LoginStore extends NotifierStore<FirebaseException, UserModel> {
+  final LoginRepository _repository = Modular.get();
+
+>>>>>>> create_password_recover_page
   LoginStore() : super(UserModel());
 
   Future<void> login({required String email, required String password}) async {
@@ -35,6 +46,16 @@ class LoginStore extends NotifierStore<Exception, UserModel> {
         update(UserModel());
       },
     ).catchError((onError) {
+      setLoading(false);
+      setError(onError);
+    });
+
+    setLoading(false);
+  }
+
+  Future<void> passwordRecovery(String email) async {
+    setLoading(true);
+    await _repository.passwordRecovery(email).catchError((onError) {
       setLoading(false);
       setError(onError);
     });
