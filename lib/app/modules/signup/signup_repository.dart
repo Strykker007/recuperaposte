@@ -11,7 +11,7 @@ class SignupRepository extends Disposable {
     try {
       UserCredential userCredential;
       log('criando usuario...');
-      // ignore: unused_local_variable
+
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
         email: userModel.email.toString(),

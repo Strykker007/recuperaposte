@@ -128,7 +128,7 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/signup');
+                      Navigator.of(context).pushNamed('/signup/');
                     },
                   ),
                   TripleBuilder<LoginStore, Exception, UserModel>(
