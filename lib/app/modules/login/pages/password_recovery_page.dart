@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
-import 'package:recuperaposte/app/modules/login/login_store.dart';
+import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';

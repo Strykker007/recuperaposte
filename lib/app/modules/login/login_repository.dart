@@ -3,11 +3,14 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:recuperaposte/app/core/models/user_model.dart';
 
 class LoginRepository extends Disposable {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<Map<String, dynamic>?> login(
+  Future<UserModel?> login(
       {required String email, required String password}) async {
+    UserModel model = UserModel();
+
     try {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
@@ -20,8 +23,10 @@ class LoginRepository extends Disposable {
           .collection('users')
           .doc(user.uid)
           .get();
-
-      return data.data();
+      model.email = data['email'];
+      model.name = data['name'];
+      model.address = data['address'];
+      return model;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         log('No user found for that email.');

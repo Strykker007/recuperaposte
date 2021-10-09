@@ -1,4 +1,6 @@
 // import 'package:flutter_modular/flutter_modular.dart';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
@@ -13,19 +15,17 @@ class LoginStore extends NotifierStore<FirebaseException, UserModel> {
   Future<void> login({required String email, required String password}) async {
     setLoading(true);
 
-    await _repository.login(email: email, password: password).then((user) {
-      UserModel model = UserModel();
-      model.email = user!['email'];
-      model.name = user['name'];
-      model.address = user['address'];
-      update(model);
-    }).catchError((onError) {
-      setLoading(false);
-      update(UserModel());
-      throw onError;
-    });
-
-    setLoading(false);
+    try {
+      await _repository.login(email: email, password: password).then((user) {
+        update(user as UserModel);
+      }).catchError((onError) {
+        setLoading(false);
+        throw onError;
+      });
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
   Future<void> logout() async {

@@ -4,15 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
-import 'package:recuperaposte/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
+import 'stores/login_store.dart';
+import 'stores/password_field_store.dart';
+
 class LoginPage extends StatefulWidget {
-  final String title;
-  const LoginPage({Key? key, this.title = 'Tela de Login'}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
   @override
   LoginPageState createState() => LoginPageState();
 }
@@ -21,6 +22,7 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final PasswordFieldStore passwordStore = Modular.get();
 
   @override
   Widget build(BuildContext context) {
@@ -88,20 +90,32 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFieldWidget(
-                    obscureText: true,
-                    prefixIcon: const Icon(Icons.lock),
-                    label: 'Senha',
-                    controller: passwordController,
-                    onSaved: (password) {
-                      passwordController.text = password.toString();
-                    },
-                    validator: (text) {
-                      if (text!.isEmpty) {
-                        return 'Este campo não pode ser vazio';
-                      } else {
-                        return null;
-                      }
+                  TripleBuilder<PasswordFieldStore, Exception, bool>(
+                    builder: (_, triple) {
+                      return TextFieldWidget(
+                        obscureText: triple.state,
+                        prefixIcon: const Icon(Icons.lock),
+                        label: 'Senha',
+                        controller: passwordController,
+                        onSaved: (password) {
+                          passwordController.text = password.toString();
+                        },
+                        suffixIcon: IconButton(
+                          icon: triple.state
+                              ? const Icon(Icons.visibility_off_outlined)
+                              : const Icon(Icons.remove_red_eye_outlined),
+                          onPressed: () {
+                            passwordStore.setObscureText(!triple.state);
+                          },
+                        ),
+                        validator: (text) {
+                          if (text!.isEmpty) {
+                            return 'Este campo não pode ser vazio';
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
                     },
                   ),
                   Container(
@@ -149,7 +163,7 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                                       .then(
                                     (value) {
                                       Navigator.of(context)
-                                          .pushReplacementNamed('/home');
+                                          .pushReplacementNamed('/home/');
                                     },
                                   ).catchError((onError) {
                                     log(onError.toString());

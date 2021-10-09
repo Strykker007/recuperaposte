@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
+
 import 'package:recuperaposte/app/core/models/user_model.dart';
-import 'package:recuperaposte/app/modules/login/login_store.dart';
+import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  final UserModel user;
+  final Function? signout;
+  const CustomDrawer({Key? key, required this.user, required this.signout})
+      : super(key: key);
 
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  final UserModel model = Modular.get();
   final LoginStore store = Modular.get();
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
         children: [
-          TripleBuilder<LoginStore, Exception, UserModel>(
-            builder: (_, triple) {
-              return UserAccountsDrawerHeader(
-                currentAccountPicture: ClipOval(
-                  child: Image.asset("assets/imagens/logo.png"),
-                ),
-                accountName: Text(model.name.toString()),
-                accountEmail: Text(model.email.toString()),
-              );
-            },
+          UserAccountsDrawerHeader(
+            currentAccountPicture: ClipOval(
+              child: Image.asset("assets/imagens/logo.png"),
+            ),
+            accountName: Text(widget.user.name.toString()),
+            accountEmail: Text(widget.user.email.toString()),
           ),
           ListTile(
             leading: const Icon(Icons.home),
@@ -69,7 +67,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             subtitle: const Text('Sair da Sessão'),
             onTap: () async {
               await store.logout().then((value) {
-                Navigator.of(context).popUntil(ModalRoute.withName('/login/'));
+                Navigator.of(context).pushReplacementNamed('/home/login');
               });
             },
           ),
