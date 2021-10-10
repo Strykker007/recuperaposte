@@ -21,36 +21,48 @@ class _CustomDrawerState extends State<CustomDrawer> {
     return Drawer(
       child: Column(
         children: [
-          UserAccountsDrawerHeader(
-            currentAccountPicture: ClipOval(
-              child: Image.asset("assets/imagens/logo.png"),
-            ),
-            accountName: Text(widget.user.name.toString()),
-            accountEmail: Text(widget.user.email.toString()),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Inicio'),
-            subtitle: const Text('Tela de Inicio'),
-            onTap: () {
-              // ignore: avoid_print
-              print('home');
-            },
+          Stack(
+            children: [
+              UserAccountsDrawerHeader(
+                currentAccountPicture: ClipOval(
+                  child: widget.user.avatarUrl != null
+                      ? Image.network(widget.user.avatarUrl.toString())
+                      : Image.asset("assets/imagens/profile.png"),
+                ),
+                accountName: Text('Olá, ${widget.user.name.toString()}'),
+                accountEmail: Text(widget.user.email.toString()),
+              ),
+              Positioned(
+                bottom: 10,
+                right: 5,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 9,
+                      right: 7,
+                      child: Icon(
+                        Icons.settings,
+                        size: 13,
+                        color: Theme.of(context).backgroundColor,
+                      ),
+                    ),
+                    IconButton(
+                      iconSize: 24,
+                      color: Theme.of(context).backgroundColor,
+                      onPressed: () {},
+                      icon: const Icon(Icons.person),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           ListTile(
             leading: const Icon(Icons.add_alert_rounded),
             title: const Text('Registrar Ocorrencia'),
-            subtitle: const Text('Fazer a Ocorrencia'),
+            subtitle: const Text('Registrar uma nova ocorrencia'),
             onTap: () {
-              Navigator.of(context).pushNamed('');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.add_alert),
-            title: const Text('Status Ocorrencia'),
-            subtitle: const Text('Status das Ocorrencias'),
-            onTap: () {
-              Navigator.of(context).pushNamed('');
+              Navigator.of(context).pushNamed('/home/ocurrency');
             },
           ),
           ListTile(
@@ -63,8 +75,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            subtitle: const Text('Sair da Sessão'),
+            title: const Text('Sair'),
+            subtitle: const Text('Encerrar Sessão'),
             onTap: () async {
               await store.logout().then((value) {
                 Navigator.of(context).pushReplacementNamed('/home/login');

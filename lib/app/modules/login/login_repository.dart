@@ -19,13 +19,12 @@ class LoginRepository extends Disposable {
       });
       User user = FirebaseAuth.instance.currentUser as User;
 
-      var data = await FirebaseFirestore.instance
+      var snapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .get();
-      model.email = data['email'];
-      model.name = data['name'];
-      model.address = data['address'];
+      model.id = user.uid;
+      model = UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
       return model;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
