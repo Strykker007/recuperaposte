@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 class UserModel {
+  late String? id;
   late String? name;
-  late String? username;
   late String? avatarUrl;
   late String? email;
   late bool? isAdmin;
   late String? address;
   UserModel({
+    this.id,
     this.name,
-    this.username,
     this.avatarUrl,
     this.email,
     this.isAdmin,
@@ -18,8 +18,8 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
-      'username': username,
       'avatarUrl': avatarUrl,
       'email': email,
       'isAdmin': isAdmin,
@@ -30,10 +30,9 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       name: map['name'],
-      // username: map['username'],
-      // avatarUrl: map['avatarUrl'],
+      avatarUrl: map['avatarUrl'],
       email: map['email'],
-      // isAdmin: map['isAdmin'],
+      isAdmin: map['isAdmin'],
       address: map['address'],
     );
   }

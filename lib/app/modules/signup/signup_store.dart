@@ -8,7 +8,7 @@ import 'package:recuperaposte/app/modules/signup/signup_repository.dart';
 class SignupStore extends NotifierStore<Exception, UserModel> {
   final SignupRepository _repository = Modular.get();
 
-  SignupStore() : super(UserModel());
+  SignupStore() : super(UserModel(isAdmin: false));
 
   Future<void> signup(String password) async {
     setLoading(true);

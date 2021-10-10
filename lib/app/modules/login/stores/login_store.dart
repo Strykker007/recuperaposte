@@ -1,6 +1,3 @@
-// import 'package:flutter_modular/flutter_modular.dart';
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
@@ -23,7 +20,7 @@ class LoginStore extends NotifierStore<FirebaseException, UserModel> {
         throw onError;
       });
     } catch (e) {
-      log(e.toString());
+      setLoading(false);
       rethrow;
     }
   }
