@@ -6,6 +6,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
 import 'package:recuperaposte/app/modules/signup/signup_store.dart';
+import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
@@ -194,11 +195,18 @@ class RegisterNewUserFormWidget extends StatelessWidget {
                                     await store
                                         .signup(password1.text)
                                         .then((value) {
-                                      log('usuario criado');
                                       Navigator.of(context).pushNamed('/home');
-                                    }).catchError((onError) {
-                                      log('ocorreu um erro ao tentar criar o usuário');
-                                    });
+                                    }).catchError(
+                                      (onError) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return CommomDialog(
+                                                message: onError.toString());
+                                          },
+                                        );
+                                      },
+                                    );
                                   }
                                 },
                           label: 'Cadastrar',

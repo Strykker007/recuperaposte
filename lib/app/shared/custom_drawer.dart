@@ -65,6 +65,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             subtitle: const Text('Registrar uma nova ocorrencia'),
             onTap: () {
               Navigator.of(context).pushNamed('/home/ocurrency');
+              Navigator.of(context).pop();
             },
           ),
           ListTile(

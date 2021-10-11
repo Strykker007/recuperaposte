@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
+import 'package:recuperaposte/app/shared/background_widget.dart';
 import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
@@ -33,16 +34,7 @@ class _PasswordRecoverPageState extends State<PasswordRecoverPage> {
           }
           return Stack(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Image.asset(
-                  'assets/imagens/background_login.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                color: Colors.black.withOpacity(0.1),
-              ),
+              const BackGroundWidget(),
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.1,
                 left: MediaQuery.of(context).size.width * 0.05,

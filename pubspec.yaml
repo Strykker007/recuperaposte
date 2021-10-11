@@ -36,5 +36,6 @@ flutter:
   assets:
     - assets/imagens/background_login.png
     - assets/imagens/profile.png
+    - assets/imagens/empty-photo.jpg
 
 

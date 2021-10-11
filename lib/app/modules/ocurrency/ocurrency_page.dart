@@ -21,26 +21,53 @@ class OcurrencyPageState extends State<OcurrencyPage> {
         body: Stack(
       children: [
         const BackGroundWidget(),
+        Positioned(
+          top: 55,
+          left: 20,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.arrow_back,
+                  color: Theme.of(context).primaryColor,
+                ),
+                Text(
+                  'Voltar',
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 15,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ),
         SafeArea(
           top: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  child: Stack(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(15),
-                        child: const OcurrencyFormWidget(),
-                      ),
-                    ],
+          child: Container(
+            margin: const EdgeInsets.only(top: 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    child: Stack(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                          child: const OcurrencyFormWidget(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
