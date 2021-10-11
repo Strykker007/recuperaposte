@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
+import 'package:recuperaposte/app/stores/user_store.dart';
 
 class CustomDrawer extends StatefulWidget {
   final UserModel user;
@@ -16,6 +17,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   final LoginStore store = Modular.get();
+  final UserStore userStore = Modular.get();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -29,8 +31,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ? Image.network(widget.user.avatarUrl.toString())
                       : Image.asset("assets/imagens/profile.png"),
                 ),
-                accountName: Text('Olá, ${widget.user.name.toString()}'),
-                accountEmail: Text(widget.user.email.toString()),
+                accountName: Text('Olá, ${userStore.state.name.toString()}'),
+                accountEmail: Text(userStore.state.email.toString()),
               ),
               Positioned(
                 bottom: 10,
