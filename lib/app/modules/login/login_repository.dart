@@ -23,8 +23,9 @@ class LoginRepository extends Disposable {
           .collection('users')
           .doc(user.uid)
           .get();
-      model.id = user.uid;
+
       model = UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
+      model.id = user.uid;
       return model;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

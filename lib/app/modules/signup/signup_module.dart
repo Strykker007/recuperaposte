@@ -1,3 +1,4 @@
+import 'package:recuperaposte/app/modules/home/home_module.dart';
 import 'package:recuperaposte/app/modules/signup/signup_Page.dart';
 import 'package:recuperaposte/app/modules/signup/signup_repository.dart';
 import 'package:recuperaposte/app/modules/signup/signup_store.dart';
@@ -13,5 +14,10 @@ class SignupModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute(Modular.initialRoute, child: (_, args) => const SignupPage()),
+    ModuleRoute(
+      '/home',
+      module: HomeModule(),
+      transition: TransitionType.fadeIn,
+    ),
   ];
 }

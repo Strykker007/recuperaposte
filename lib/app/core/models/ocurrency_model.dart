@@ -1,14 +1,15 @@
 import 'dart:convert';
-import 'gps_model.dart';
 
 class OcurrencyModel {
   late String? protocol;
-  late DateTime? date;
+  late String? date;
   late String? description;
   late String? urlPhoto;
   late int? status;
   late String? postNumber;
-  late GPSModel? location;
+  late double? latitude;
+  late double? longitude;
+  late String? userId;
   OcurrencyModel({
     this.protocol,
     this.date,
@@ -16,7 +17,9 @@ class OcurrencyModel {
     this.urlPhoto,
     this.status,
     this.postNumber,
-    this.location,
+    this.latitude,
+    this.longitude,
+    this.userId,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,19 +30,22 @@ class OcurrencyModel {
       'urlPhoto': urlPhoto,
       'status': status,
       'postNumber': postNumber,
-      'location': location,
+      'latitude': latitude,
+      'longitude': longitude,
+      'userId': userId,
     };
   }
 
   factory OcurrencyModel.fromMap(Map<String, dynamic> map) {
     return OcurrencyModel(
-      protocol: map['protocol'],
       date: map['date'],
       description: map['description'],
       urlPhoto: map['urlPhoto'],
       status: map['status'],
       postNumber: map['postNumber'],
-      location: map['location'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      userId: map['userId'],
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
@@ -11,7 +12,9 @@ import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
 class RegisterNewUserFormWidget extends StatelessWidget {
-  const RegisterNewUserFormWidget({Key? key}) : super(key: key);
+  const RegisterNewUserFormWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +188,7 @@ class RegisterNewUserFormWidget extends StatelessWidget {
                       height: 15,
                     ),
                     TripleBuilder<LoginStore, Exception, UserModel>(
-                      builder: (_, triple) {
+                      builder: (context, triple) {
                         return CommonButtonWidget(
                           onTap: store.isLoading
                               ? null
@@ -195,16 +198,29 @@ class RegisterNewUserFormWidget extends StatelessWidget {
                                     await store
                                         .signup(password1.text)
                                         .then((value) {
-                                      Navigator.of(context).pushNamed('/home');
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (context) {
+                                      //     return const CommomDialog(
+                                      //         message:
+                                      //             'Usuário criado com sucesso!');
+                                      //   },
+                                      // );
+                                      // SchedulerBinding.instance!
+                                      //     .addPostFrameCallback((_) {
+                                      //   Navigator.of(context)
+                                      //       .pushReplacementNamed('/home');
+                                      // });
                                     }).catchError(
                                       (onError) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return CommomDialog(
-                                                message: onError.toString());
-                                          },
-                                        );
+                                        // showDialog(
+                                        //   context: context,
+                                        //   builder: (context) {
+                                        //     return CommomDialog(
+                                        //         message: onError.toString());
+                                        //   },
+                                        // );
+                                        log('deu erro');
                                       },
                                     );
                                   }
