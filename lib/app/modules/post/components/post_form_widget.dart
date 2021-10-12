@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:recuperaposte/app/shared/image_picked_card_widget.dart';
-
-import 'package:recuperaposte/app/modules/post/post_store.dart';
-import 'package:recuperaposte/app/modules/post/stores/image_picker_store.dart';
+import 'package:recuperaposte/app/modules/post/stores/image_picked_store.dart';
+import 'package:recuperaposte/app/modules/post/stores/post_store.dart';
+import 'package:recuperaposte/app/modules/post/components/image_picked_widget.dart';
 import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
@@ -24,6 +23,8 @@ class _PostFormWidgetState extends State<PostFormWidget> {
     final GlobalKey<FormState> _formKey = GlobalKey();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final TextEditingController codeController = TextEditingController();
+    final TextEditingController statusController = TextEditingController();
     XFile? photo = XFile('');
     final ImagePicker imagePicker = ImagePicker();
     File photoToFile = File('');
@@ -53,8 +54,8 @@ class _PostFormWidgetState extends State<PostFormWidget> {
           ),
           TextFieldWidget(
             textInputType: TextInputType.text,
-            prefixIcon: const Icon(Icons.light),
-            label: 'Número do poste',
+            prefixIcon: const Icon(Icons.emoji_objects),
+            label: 'Tipo de poste',
             controller: emailController,
             onSaved: (email) {
               emailController.text = email.toString();
@@ -71,11 +72,11 @@ class _PostFormWidgetState extends State<PostFormWidget> {
             height: 20,
           ),
           TextFieldWidget(
-            prefixIcon: const Icon(Icons.list_alt),
-            label: 'Codigo do Poste',
-            controller: passwordController,
-            onSaved: (password) {
-              passwordController.text = password.toString();
+            prefixIcon: const Icon(Icons.code),
+            label: 'Código do Poste',
+            controller: codeController,
+            onSaved: (code) {
+              codeController.text = code.toString();
             },
             validator: (text) {
               if (text!.isEmpty) {
@@ -94,6 +95,24 @@ class _PostFormWidgetState extends State<PostFormWidget> {
             controller: passwordController,
             onSaved: (password) {
               passwordController.text = password.toString();
+            },
+            validator: (text) {
+              if (text!.isEmpty) {
+                return 'Este campo não pode ser vazio';
+              } else {
+                return null;
+              }
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFieldWidget(
+            prefixIcon: const Icon(Icons.check),
+            label: 'Status do Poste',
+            controller: statusController,
+            onSaved: (status) {
+              codeController.text = status.toString();
             },
             validator: (text) {
               if (text!.isEmpty) {

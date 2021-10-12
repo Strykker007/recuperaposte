@@ -1,10 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:recuperaposte/app/modules/post/components/post_form_widget.dart';
-import 'package:recuperaposte/app/modules/post/post_store.dart';
+import 'package:recuperaposte/app/modules/post/stores/post_store.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
-import 'package:permission_handler/permission_handler.dart' as ph;
-import 'package:geolocator/geolocator.dart';
 
 class PostPage extends StatefulWidget {
   final String title;

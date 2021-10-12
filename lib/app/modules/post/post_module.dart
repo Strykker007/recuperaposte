@@ -1,7 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:recuperaposte/app/modules/ocurrency/stores/image_picker_store.dart';
+
 import 'package:recuperaposte/app/modules/post/post_page.dart';
-import 'package:recuperaposte/app/modules/post/post_store.dart';
+import 'package:recuperaposte/app/modules/post/stores/image_picked_store.dart';
+import 'package:recuperaposte/app/modules/post/stores/post_store.dart';
 
 import 'post_repository.dart';
 
