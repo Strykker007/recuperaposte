@@ -18,6 +18,9 @@ dependencies:
   flutter_triple: ^1.2.4+3
   firebase_auth: ^3.1.1
   cloud_firestore: ^2.5.3
+  image_picker: 0.8.4+2
+  geolocator: ^7.7.0
+  firebase_storage: ^10.0.5
 
 dev_dependencies:
   flutter_test:
@@ -33,8 +36,8 @@ flutter:
 
 
   assets:
-    - assets/imagens/logo.png
     - assets/imagens/background_login.png
-
+    - assets/imagens/profile.png
+    - assets/imagens/empty-photo.jpg
 
 

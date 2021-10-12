@@ -1,84 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'home_store.dart';
+import 'package:flutter_triple/flutter_triple.dart';
+import 'package:recuperaposte/app/core/models/user_model.dart';
+import 'package:recuperaposte/app/modules/home/stores/quantity_ocurrency_home_card_store.dart';
+import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
+import 'package:recuperaposte/app/shared/background_widget.dart';
+import 'package:recuperaposte/app/shared/custom_drawer.dart';
+import 'components/home_header_widget.dart';
+import 'components/ocurrency_card_widget.dart';
+import 'stores/home_store.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
-  const HomePage({Key? key, this.title = "Pagina Inicial"}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends ModularState<HomePage, HomeStore> {
+  LoginStore loginStore = Modular.get();
+  final QuantityOcurrencyHomeCardStore ocurrencyStore = Modular.get();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+  @override
+  void initState() {
+    ocurrencyStore.getQuantityOcurrencies();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: ClipOval(
-                child: Image.asset("assets/imagens/logo.png"),
-              ),
-              accountName: const Text('Usuario'),
-              accountEmail: const Text('email@hotmail.com'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Inicio'),
-              subtitle: const Text('Tela de Inicio'),
-              onTap: () {
-                // ignore: avoid_print
-                print('home');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.add_alert_rounded),
-              title: const Text('Registrar Ocorrencia'),
-              subtitle: const Text('Fazer a Ocorrencia'),
-              onTap: () {
-                Navigator.of(context).pushNamed('');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.add_alert),
-              title: const Text('Status Ocorrencia'),
-              subtitle: const Text('Status das Ocorrencias'),
-              onTap: () {
-                Navigator.of(context).pushNamed('');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.add_alert_rounded),
-              title: const Text('Atendimeto de Ocorrencia'),
-              subtitle: const Text('Atender/Validar Ocorrencias'),
-              onTap: () {
-                Navigator.of(context).pushNamed('');
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
-              subtitle: const Text('Sair da Sessão'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/login');
-              },
-            ),
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: const Text('Pagina Inicial'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          store.increment();
+      key: _key,
+      drawer: TripleBuilder<LoginStore, Exception, UserModel>(
+        builder: (_, triple) {
+          return CustomDrawer(
+            user: loginStore.state,
+            signout: () {
+              loginStore.logout().then((value) =>
+                  Navigator.of(context).pushReplacementNamed('/login/'));
+            },
+          );
         },
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).backgroundColor,
-        ),
+      ),
+      body: Stack(
+        children: [
+          const BackGroundWidget(),
+          RefreshIndicator(
+            onRefresh: () async {
+              await ocurrencyStore.getQuantityOcurrencies();
+            },
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                HomeHeaderWidget(scaffoldKey: _key),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      child: Column(
+                        children: const [
+                          OcurrencyCardWidget(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

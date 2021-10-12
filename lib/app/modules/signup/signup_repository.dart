@@ -6,10 +6,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 
 class SignupRepository extends Disposable {
-  Future<void> signup(
+  Future<UserModel?> signup(
       {required UserModel userModel, required String password}) async {
     try {
       UserCredential userCredential;
+      UserModel model = UserModel();
       log('criando usuario...');
 
       await FirebaseAuth.instance
@@ -17,18 +18,24 @@ class SignupRepository extends Disposable {
         email: userModel.email.toString(),
         password: password,
       )
-          .then(
-        (credential) {
-          userCredential = credential;
+          .then((credential) async {
+        userCredential = credential;
 
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(userCredential.user!.uid)
-              .set(userModel.toMap());
-        },
-      ).catchError((onError) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set(userModel.toMap());
+
+        var snapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(credential.user!.uid)
+            .get();
+        model = UserModel.fromMap(snapshot.data() as Map<String, dynamic>);
+        model.id = credential.user!.uid;
+      }).catchError((onError) {
         throw onError;
       });
+      return model;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         log('The password provided is too weak.');

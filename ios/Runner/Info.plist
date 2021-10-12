@@ -39,7 +39,19 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Precisamos ter acesso á sua galeria para disponibilizar os recursos para tirar fotos ao cadastrar novas ocorrências</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Precisamos ter acesso á sua câmera para disponibilizar os recursos para tirar fotos ao cadastrar novas ocorrências</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Precisamos ter acesso ao seu microfone para disponibilizar os recursos para tirar fotos ao cadastrar novas ocorrências</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location in the background.</string>    
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open and in the background.</string>
 </dict>
 </plist>

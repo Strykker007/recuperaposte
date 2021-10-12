@@ -1,58 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
+
 import 'package:recuperaposte/app/core/models/user_model.dart';
-import 'package:recuperaposte/app/modules/login/login_store.dart';
+import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
+import 'package:recuperaposte/app/stores/user_store.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  final UserModel user;
+  final Function? signout;
+  const CustomDrawer({Key? key, required this.user, required this.signout})
+      : super(key: key);
 
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  final UserModel model = Modular.get();
   final LoginStore store = Modular.get();
+  final UserStore userStore = Modular.get();
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
         children: [
-          TripleBuilder<LoginStore, Exception, UserModel>(
-            builder: (_, triple) {
-              return UserAccountsDrawerHeader(
+          Stack(
+            children: [
+              UserAccountsDrawerHeader(
                 currentAccountPicture: ClipOval(
-                  child: Image.asset("assets/imagens/logo.png"),
+                  child: userStore.state.avatarUrl != null
+                      ? Image.network(userStore.state.avatarUrl.toString())
+                      : Image.asset("assets/imagens/profile.png"),
                 ),
-                accountName: Text(model.name.toString()),
-                accountEmail: Text(model.email.toString()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Inicio'),
-            subtitle: const Text('Tela de Inicio'),
-            onTap: () {
-              // ignore: avoid_print
-              print('home');
-            },
+                accountName: Text('Olá, ${userStore.state.name.toString()}'),
+                accountEmail: Text(userStore.state.email.toString()),
+              ),
+              Positioned(
+                bottom: 10,
+                right: 5,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 9,
+                      right: 7,
+                      child: Icon(
+                        Icons.settings,
+                        size: 13,
+                        color: Theme.of(context).backgroundColor,
+                      ),
+                    ),
+                    IconButton(
+                      iconSize: 24,
+                      color: Theme.of(context).backgroundColor,
+                      onPressed: () {},
+                      icon: const Icon(Icons.person),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           ListTile(
             leading: const Icon(Icons.add_alert_rounded),
             title: const Text('Registrar Ocorrencia'),
-            subtitle: const Text('Fazer a Ocorrencia'),
+            subtitle: const Text('Registrar uma nova ocorrencia'),
             onTap: () {
-              Navigator.of(context).pushNamed('');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.add_alert),
-            title: const Text('Status Ocorrencia'),
-            subtitle: const Text('Status das Ocorrencias'),
-            onTap: () {
-              Navigator.of(context).pushNamed('');
+              Navigator.of(context).pushNamed('/home/ocurrency');
+              Navigator.of(context).pop();
             },
           ),
           ListTile(
@@ -65,14 +78,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            subtitle: const Text('Sair da Sessão'),
+            title: const Text('Sair'),
+            subtitle: const Text('Encerrar Sessão'),
             onTap: () async {
               await store.logout().then((value) {
-                Navigator.of(context).popUntil(ModalRoute.withName('/login/'));
+                Navigator.of(context).pushReplacementNamed('/home/login');
               });
             },
           ),
+          userStore.state.isAdmin == true
+              ? Column(
+                  children: [
+                    Divider(height: 2, color: Theme.of(context).primaryColor),
+                    ListTile(
+                      leading: const Icon(Icons.admin_panel_settings),
+                      title: const Text('Administrador'),
+                      subtitle: const Text('Administrar premissões'),
+                      onTap: () async {
+                        // await store.logout().then((value) {
+                        //   Navigator.of(context)
+                        //       .pushReplacementNamed('/home/users');
+                        // });
+                      },
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );
