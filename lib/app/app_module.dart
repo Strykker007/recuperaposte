@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/modules/login/login_module.dart';
+import 'package:recuperaposte/app/modules/post/post_module.dart';
 
 import 'stores/user_store.dart';
 
@@ -11,6 +12,6 @@ class AppModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ModuleRoute(Modular.initialRoute, module: LoginModule()),
+    ModuleRoute(Modular.initialRoute, module: PostModule()),
   ];
 }
