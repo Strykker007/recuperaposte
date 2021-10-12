@@ -1,24 +1,24 @@
 import 'dart:convert';
 
 class GPSModel {
-  late int coordinateX;
-  late int coordinateY;
+  late double latitude;
+  late double longitude;
   GPSModel({
-    required this.coordinateX,
-    required this.coordinateY,
+    required this.latitude,
+    required this.longitude,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'coordinateX': coordinateX,
-      'coordinateY': coordinateY,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
   factory GPSModel.fromMap(Map<String, dynamic> map) {
     return GPSModel(
-      coordinateX: map['coordinateX'],
-      coordinateY: map['coordinateY'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
     );
   }
 

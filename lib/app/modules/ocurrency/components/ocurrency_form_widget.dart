@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
 import 'package:recuperaposte/app/shared/image_picked_card_widget.dart';
 
 import 'package:recuperaposte/app/modules/ocurrency/ocurrency_store.dart';
@@ -22,8 +23,8 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController postNumberController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
     XFile? photo = XFile('');
     final ImagePicker imagePicker = ImagePicker();
     File photoToFile = File('');
@@ -52,12 +53,13 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
             height: 20,
           ),
           TextFieldWidget(
-            textInputType: TextInputType.text,
+            textInputType:
+                const TextInputType.numberWithOptions(decimal: false),
             prefixIcon: const Icon(Icons.light),
             label: 'Número do poste',
-            controller: emailController,
-            onSaved: (email) {
-              emailController.text = email.toString();
+            controller: postNumberController,
+            onSaved: (postNumber) {
+              store.state.postNumber = postNumber;
             },
             validator: (text) {
               if (text!.isEmpty) {
@@ -73,9 +75,9 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
           TextFieldWidget(
             prefixIcon: const Icon(Icons.list_alt),
             label: 'Descrição',
-            controller: passwordController,
-            onSaved: (password) {
-              passwordController.text = password.toString();
+            controller: descriptionController,
+            onSaved: (description) {
+              store.state.description = description;
             },
             validator: (text) {
               if (text!.isEmpty) {
@@ -92,14 +94,26 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
             onTap: store.isLoading
                 ? null
                 : () async {
-                    if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate() &&
+                        imagePickerStore.state.path.isNotEmpty) {
                       _formKey.currentState!.save();
                       await store
-                          .registerOcurrency()
+                          .registerOcurrency(imagePickerStore.state)
                           .then(
-                            (value) {},
-                          )
-                          .catchError(
+                        (value) {
+                          imagePickerStore.update(File(''));
+                          _formKey.currentState!.reset();
+                          store.update(OcurrencyModel());
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const CommomDialog(
+                                message: 'Ocorrência enviada com sucesso!',
+                              );
+                            },
+                          );
+                        },
+                      ).catchError(
                         (onError) {
                           showDialog(
                             context: context,

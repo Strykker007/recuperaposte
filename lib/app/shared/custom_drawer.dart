@@ -27,8 +27,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             children: [
               UserAccountsDrawerHeader(
                 currentAccountPicture: ClipOval(
-                  child: widget.user.avatarUrl != null
-                      ? Image.network(widget.user.avatarUrl.toString())
+                  child: userStore.state.avatarUrl != null
+                      ? Image.network(userStore.state.avatarUrl.toString())
                       : Image.asset("assets/imagens/profile.png"),
                 ),
                 accountName: Text('Olá, ${userStore.state.name.toString()}'),
@@ -86,6 +86,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
               });
             },
           ),
+          userStore.state.isAdmin == true
+              ? Column(
+                  children: [
+                    Divider(height: 2, color: Theme.of(context).primaryColor),
+                    ListTile(
+                      leading: const Icon(Icons.admin_panel_settings),
+                      title: const Text('Administrador'),
+                      subtitle: const Text('Administrar premissões'),
+                      onTap: () async {
+                        // await store.logout().then((value) {
+                        //   Navigator.of(context)
+                        //       .pushReplacementNamed('/home/users');
+                        // });
+                      },
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );

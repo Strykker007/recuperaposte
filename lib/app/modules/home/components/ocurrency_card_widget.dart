@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/ocurrency_quantity_model.dart';
 import 'package:recuperaposte/app/modules/home/stores/quantity_ocurrency_home_card_store.dart';
+import 'package:recuperaposte/app/shared/loading_widget.dart';
 
 class OcurrencyCardWidget extends StatelessWidget {
   const OcurrencyCardWidget({Key? key}) : super(key: key);
@@ -26,6 +27,9 @@ class OcurrencyCardWidget extends StatelessWidget {
         child: TripleBuilder<QuantityOcurrencyHomeCardStore, Exception,
             OcurrencyQuantityModel>(
           builder: (_, triple) {
+            if (triple.isLoading) {
+              return const Center(child: LoadingWidget());
+            }
             return Card(
               color: Theme.of(context).backgroundColor,
               child: Column(

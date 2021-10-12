@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
@@ -18,7 +17,6 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends ModularState<LoginPage, LoginStore> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return Scaffold(
       body: TripleBuilder<LoginStore, Exception, UserModel>(
         store: store,
