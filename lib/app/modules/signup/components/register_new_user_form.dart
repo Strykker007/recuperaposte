@@ -1,13 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
 import 'package:recuperaposte/app/modules/signup/signup_store.dart';
-import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
@@ -188,7 +186,7 @@ class RegisterNewUserFormWidget extends StatelessWidget {
                       height: 15,
                     ),
                     TripleBuilder<LoginStore, Exception, UserModel>(
-                      builder: (context, triple) {
+                      builder: (_, triple) {
                         return CommonButtonWidget(
                           onTap: store.isLoading
                               ? null
@@ -197,20 +195,23 @@ class RegisterNewUserFormWidget extends StatelessWidget {
                                     _formKey.currentState!.save();
                                     await store
                                         .signup(password1.text)
-                                        .then((value) {
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (context) {
-                                      //     return const CommomDialog(
-                                      //         message:
-                                      //             'Usuário criado com sucesso!');
-                                      //   },
-                                      // );
-                                      // SchedulerBinding.instance!
-                                      //     .addPostFrameCallback((_) {
-                                      //   Navigator.of(context)
-                                      //       .pushReplacementNamed('/home');
-                                      // });
+                                        .then((value) async {
+                                      final snackBar = SnackBar(
+                                        content: const Text(
+                                            'Usuário criado com sucesso!'),
+                                        action: SnackBarAction(
+                                          label: 'Undo',
+                                          onPressed: () {
+                                            // Some code to undo the change.
+                                          },
+                                        ),
+                                      );
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+
+                                      Future.delayed(const Duration(seconds: 2))
+                                          .then((value) => Modular.to.pop());
                                     }).catchError(
                                       (onError) {
                                         // showDialog(
@@ -220,7 +221,7 @@ class RegisterNewUserFormWidget extends StatelessWidget {
                                         //         message: onError.toString());
                                         //   },
                                         // );
-                                        log('deu erro');
+                                        log(onError.toString());
                                       },
                                     );
                                   }

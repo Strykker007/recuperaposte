@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/modules/home/home_page.dart';
+import 'package:recuperaposte/app/modules/home/pages/edit_user_page.dart';
 import 'package:recuperaposte/app/modules/home/stores/home_store.dart';
 import 'package:recuperaposte/app/modules/login/pages/login_page.dart';
 import 'package:recuperaposte/app/modules/ocurrency/ocurrency_module.dart';
@@ -21,6 +22,7 @@ class HomeModule extends Module {
       child: (_, args) => const HomePage(),
     ),
     ChildRoute('/login', child: (_, args) => const LoginPage()),
+    ChildRoute('/edituser', child: (_, args) => const EditUserPage()),
     ModuleRoute('/ocurrency', module: OcurrencyModule())
   ];
 }

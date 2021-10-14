@@ -51,7 +51,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     IconButton(
                       iconSize: 24,
                       color: Theme.of(context).backgroundColor,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushNamed('/home/edituser');
+                      },
                       icon: const Icon(Icons.person),
                     ),
                   ],
@@ -66,14 +69,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {
               Navigator.of(context).pushNamed('/home/ocurrency');
               Navigator.of(context).pop();
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.add_alert_rounded),
-            title: const Text('Atendimeto de Ocorrencia'),
-            subtitle: const Text('Atender/Validar Ocorrencias'),
-            onTap: () {
-              Navigator.of(context).pushNamed('');
             },
           ),
           ListTile(
@@ -92,8 +87,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Divider(height: 2, color: Theme.of(context).primaryColor),
                     ListTile(
                       leading: const Icon(Icons.admin_panel_settings),
-                      title: const Text('Administrador'),
+                      title: const Text('Gerenciar usuários'),
                       subtitle: const Text('Administrar premissões'),
+                      onTap: () async {
+                        // await store.logout().then((value) {
+                        //   Navigator.of(context)
+                        //       .pushReplacementNamed('/home/users');
+                        // });
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.list),
+                      title: const Text('Ocorrências'),
+                      subtitle: const Text('Administrar ocorrências'),
                       onTap: () async {
                         // await store.logout().then((value) {
                         //   Navigator.of(context)
