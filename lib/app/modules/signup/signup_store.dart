@@ -34,7 +34,7 @@ class SignupStore extends NotifierStore<Exception, UserModel> {
       );
     } catch (e) {
       setLoading(false);
-      throw e;
+      rethrow;
     }
     await Future.delayed(const Duration(seconds: 2));
     setLoading(false);

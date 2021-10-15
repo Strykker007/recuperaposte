@@ -1,6 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
-import 'package:recuperaposte/app/modules/post/components/post_form_widget.dart';
 import 'package:recuperaposte/app/modules/post/stores/post_store.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
 
@@ -59,7 +58,7 @@ class PostPageState extends State<PostPage> {
                       children: [
                         Container(
                           margin: const EdgeInsets.all(15),
-                          child: const PostFormWidget(),
+                          // child: const PostFormWidget(),
                         ),
                       ],
                     ),

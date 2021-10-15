@@ -62,6 +62,73 @@ class HomeRepository extends Disposable {
     }
   }
 
+  Future<List<UserModel>> getUsers() async {
+    List<UserModel> users = [];
+    UserModel userModel;
+    try {
+      var snapshot =
+          await FirebaseFirestore.instance.collection('users').get().catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+      for (var element in snapshot.docs) {
+        userModel = UserModel.fromMap(element.data());
+        userModel.id = element.id;
+        users.add(userModel);
+      }
+    } catch (e) {
+      rethrow;
+    }
+
+    return users;
+  }
+
+  Future<List<UserModel>> getFilteredUsers(String name) async {
+    List<UserModel> users = [];
+    UserModel userModel;
+    try {
+      var snapshot =
+          await FirebaseFirestore.instance.collection('users').get().catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+      for (var element in snapshot.docs) {
+        if (element['name']
+            .toString()
+            .toLowerCase()
+            .contains(name.toLowerCase())) {
+          userModel = UserModel.fromMap(element.data());
+          userModel.id = element.id;
+          users.add(userModel);
+        }
+      }
+    } catch (e) {
+      rethrow;
+    }
+
+    return users;
+  }
+
+  Future<void> updateUser(UserModel user) async {
+    try {
+      String downloadUrl = '';
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.id)
+          .set(user.toMap())
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   void dispose() {}
 }

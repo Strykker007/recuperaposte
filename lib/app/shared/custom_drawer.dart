@@ -51,8 +51,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     IconButton(
                       iconSize: 24,
                       color: Theme.of(context).backgroundColor,
-                      onPressed: () {
+                      onPressed: () async {
                         Modular.to.pop();
+                        await Future.delayed(const Duration(milliseconds: 40));
                         Modular.to.pushNamed('/home/edituser');
                       },
                       icon: const Icon(Icons.person),
@@ -66,8 +67,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: const Icon(Icons.add_alert_rounded),
             title: const Text('Registrar Ocorrencia'),
             subtitle: const Text('Registrar uma nova ocorrencia'),
-            onTap: () {
+            onTap: () async {
               Modular.to.pushNamed('/home/ocurrency');
+              Modular.to.pop();
+              await Future.delayed(const Duration(milliseconds: 40));
               Modular.to.pop();
             },
           ),
@@ -78,7 +81,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () async {
               await store.logout().then((value) async {
                 Modular.to.pop();
-                await Future.delayed(const Duration(milliseconds: 250));
+                await Future.delayed(const Duration(milliseconds: 40));
                 Modular.to.pushReplacementNamed('/');
               });
             },
@@ -92,16 +95,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       title: const Text('Gerenciar usuários'),
                       subtitle: const Text('Administrar premissões'),
                       onTap: () async {
-                        // await store.logout().then((value) {
-                        //   Modular.to
-                        //       .pushReplacementNamed('/home/users');
-                        // });
+                        Modular.to.pop();
+                        await Future.delayed(const Duration(milliseconds: 40));
+                        Modular.to.pushNamed('/home/userManager');
                       },
                     ),
                     ListTile(
                       leading: const Icon(Icons.list),
                       title: const Text('Ocorrências'),
-                      subtitle: const Text('Administrar ocorrências'),
+                      subtitle: const Text('Consultar ocorrências'),
                       onTap: () async {
                         // await store.logout().then((value) {
                         //   Modular.to
@@ -110,14 +112,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
                     ListTile(
-                      leading: const Icon(Icons.admin_panel_settings),
+                      leading: const Icon(Icons.light),
                       title: const Text('Cadastrar Poste'),
-                      subtitle: const Text('Administrar premissões'),
+                      subtitle: const Text('Cadastro de postes'),
                       onTap: () async {
-                        // await store.logout().then((value) {
-                        //   Modular.to
-                        //       .pushReplacementNamed('/home/users');
-                        // });
+                        Modular.to.pop();
+                        await Future.delayed(const Duration(milliseconds: 40));
+                        Modular.to.pushNamed('/home/createPost');
                       },
                     ),
                   ],

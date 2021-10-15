@@ -34,6 +34,12 @@ class _EditUserPageState extends State<EditUserPage> {
                 top: true,
                 child: Column(
                   children: [
+                    Text(
+                      'Editar Perfil',
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    ),
                     Expanded(
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(

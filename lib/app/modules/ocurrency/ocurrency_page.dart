@@ -31,7 +31,7 @@ class OcurrencyPageState extends State<OcurrencyPage> {
             children: [
               const BackGroundWidget(),
               Positioned(
-                top: 55,
+                top: 90,
                 left: 20,
                 child: GestureDetector(
                   onTap: () {
@@ -54,29 +54,35 @@ class OcurrencyPageState extends State<OcurrencyPage> {
                   ),
                 ),
               ),
-              SafeArea(
-                top: true,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 25),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics()),
-                          child: Stack(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(15),
-                                child: const OcurrencyFormWidget(),
-                              ),
-                            ],
+              Container(
+                margin: const EdgeInsets.only(top: 50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Registrar ocorrência',
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: Theme.of(context).primaryColor,
                           ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.all(15),
+                              child: const OcurrencyFormWidget(),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               loading,
