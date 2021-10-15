@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class CommomDialog extends StatelessWidget {
   final String message;
-  const CommomDialog({Key? key, this.message = 'Ocorreu um erro inesperado!'})
+  final bool disableCloseButtom;
+  const CommomDialog(
+      {Key? key,
+      this.message = 'Ocorreu um erro inesperado!',
+      this.disableCloseButtom = false})
       : super(key: key);
 
   @override
@@ -38,25 +42,27 @@ class CommomDialog extends StatelessWidget {
                     .headline6!
                     .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
               ),
-              GestureDetector(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 100,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: Text(
-                    'Fechar',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              )
+              disableCloseButtom
+                  ? Container()
+                  : GestureDetector(
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Text(
+                          'Fechar',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
             ],
           ),
         ),

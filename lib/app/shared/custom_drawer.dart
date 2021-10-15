@@ -52,8 +52,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       iconSize: 24,
                       color: Theme.of(context).backgroundColor,
                       onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed('/home/edituser');
+                        Modular.to.pop();
+                        Modular.to.pushNamed('/home/edituser');
                       },
                       icon: const Icon(Icons.person),
                     ),
@@ -67,8 +67,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: const Text('Registrar Ocorrencia'),
             subtitle: const Text('Registrar uma nova ocorrencia'),
             onTap: () {
-              Navigator.of(context).pushNamed('/home/ocurrency');
-              Navigator.of(context).pop();
+              Modular.to.pushNamed('/home/ocurrency');
+              Modular.to.pop();
             },
           ),
           ListTile(
@@ -76,8 +76,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: const Text('Sair'),
             subtitle: const Text('Encerrar Sessão'),
             onTap: () async {
-              await store.logout().then((value) {
-                Navigator.of(context).pushReplacementNamed('/home/login');
+              await store.logout().then((value) async {
+                Modular.to.pop();
+                await Future.delayed(const Duration(milliseconds: 250));
+                Modular.to.pushReplacementNamed('/');
               });
             },
           ),
@@ -91,7 +93,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       subtitle: const Text('Administrar premissões'),
                       onTap: () async {
                         // await store.logout().then((value) {
-                        //   Navigator.of(context)
+                        //   Modular.to
                         //       .pushReplacementNamed('/home/users');
                         // });
                       },
@@ -102,7 +104,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       subtitle: const Text('Administrar ocorrências'),
                       onTap: () async {
                         // await store.logout().then((value) {
-                        //   Navigator.of(context)
+                        //   Modular.to
                         //       .pushReplacementNamed('/home/users');
                         // });
                       },

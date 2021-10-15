@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
+import 'package:recuperaposte/app/core/models/user_model.dart';
 
 class HomeRepository extends Disposable {
   Future<List<OcurrencyModel>> getOcurrencies(String userId) async {
@@ -20,6 +21,10 @@ class HomeRepository extends Disposable {
     }
 
     return ocurrencies;
+  }
+
+  Future<UserModel> editUser(UserModel newUser) async {
+    return newUser;
   }
 
   @override

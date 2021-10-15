@@ -19,12 +19,34 @@ class _EditUserPageState extends State<EditUserPage> {
       body: Stack(
         children: [
           const BackGroundWidget(),
+          SafeArea(
+            top: true,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(vertical: 100),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: UserFormWidget(user: userStore.state),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.1,
             left: MediaQuery.of(context).size.width * 0.05,
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
+                Modular.to.pop();
               },
               child: Row(
                 children: [
@@ -42,7 +64,6 @@ class _EditUserPageState extends State<EditUserPage> {
               ),
             ),
           ),
-          UserFormWidget(user: userStore.state),
         ],
       ),
     );

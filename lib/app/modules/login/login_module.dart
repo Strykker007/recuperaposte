@@ -3,7 +3,6 @@ import 'package:recuperaposte/app/modules/login/login_repository.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/modules/login/stores/password_field_store.dart';
-import 'package:recuperaposte/app/modules/signup/signup_module.dart';
 
 import 'pages/login_page.dart';
 import 'pages/password_recovery_page.dart';
@@ -21,11 +20,6 @@ class LoginModule extends Module {
     ChildRoute(Modular.initialRoute, child: (_, args) => const LoginPage()),
     ChildRoute('/passwordRecover',
         child: (_, args) => const PasswordRecoverPage()),
-    ModuleRoute(
-      '/signup',
-      module: SignupModule(),
-      transition: TransitionType.fadeIn,
-    ),
     ModuleRoute(
       '/home',
       module: HomeModule(),

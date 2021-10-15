@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
-import 'package:recuperaposte/app/shared/image_picked_card_widget.dart';
+import 'package:recuperaposte/app/modules/ocurrency/components/ocurrency_image_picked_card_widget.dart';
 
 import 'package:recuperaposte/app/modules/ocurrency/ocurrency_store.dart';
-import 'package:recuperaposte/app/modules/ocurrency/stores/image_picker_store.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_image_picked_store.dart';
 import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
@@ -28,7 +28,7 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
     XFile? photo = XFile('');
     final ImagePicker imagePicker = ImagePicker();
     File photoToFile = File('');
-    final ImagePickerStore imagePickerStore = Modular.get();
+    final OcurrencyImagePickerStore imagePickerStore = Modular.get();
     final OcurrencyStore store = Modular.get();
 
     return Form(
@@ -43,9 +43,9 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
               photoToFile = File(photo!.path);
               imagePickerStore.update(photoToFile);
             },
-            child: TripleBuilder<ImagePickerStore, Exception, File>(
+            child: TripleBuilder<OcurrencyImagePickerStore, Exception, File>(
               builder: (_, triple) {
-                return ImagePickedCardWidget(file: triple.state);
+                return OcurrencyImagePickedCardWidget(file: triple.state);
               },
             ),
           ),
