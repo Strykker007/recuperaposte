@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'dart:io';
 
-import 'package:recuperaposte/app/modules/ocurrency/stores/image_picker_store.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_image_picked_store.dart';
 
-class ImagePickedCardWidget extends StatelessWidget {
+class OcurrencyImagePickedCardWidget extends StatelessWidget {
   final File file;
-  const ImagePickedCardWidget({Key? key, required this.file}) : super(key: key);
+  const OcurrencyImagePickedCardWidget({
+    Key? key,
+    required this.file,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ImagePickerStore imagePickerStore = Modular.get();
+    final OcurrencyImagePickerStore imagePickerStore = Modular.get();
     return Stack(
       children: [
         Container(

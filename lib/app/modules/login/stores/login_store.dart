@@ -32,7 +32,7 @@ class LoginStore extends NotifierStore<FirebaseException, UserModel> {
 
     await _repository.logout().then(
       (value) {
-        userStore.update(UserModel(isAdmin: false));
+        userStore.update(UserModel());
       },
     ).catchError((onError) {
       setLoading(false);

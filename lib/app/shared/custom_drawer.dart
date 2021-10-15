@@ -27,8 +27,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             children: [
               UserAccountsDrawerHeader(
                 currentAccountPicture: ClipOval(
-                  child: widget.user.avatarUrl != null
-                      ? Image.network(widget.user.avatarUrl.toString())
+                  child: userStore.state.avatarUrl != null
+                      ? Image.network(userStore.state.avatarUrl.toString())
                       : Image.asset("assets/imagens/profile.png"),
                 ),
                 accountName: Text('Olá, ${userStore.state.name.toString()}'),
@@ -51,7 +51,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     IconButton(
                       iconSize: 24,
                       color: Theme.of(context).backgroundColor,
-                      onPressed: () {},
+                      onPressed: () {
+                        Modular.to.pop();
+                        Modular.to.pushNamed('/home/edituser');
+                      },
                       icon: const Icon(Icons.person),
                     ),
                   ],
@@ -64,16 +67,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: const Text('Registrar Ocorrencia'),
             subtitle: const Text('Registrar uma nova ocorrencia'),
             onTap: () {
-              Navigator.of(context).pushNamed('/home/ocurrency');
-              Navigator.of(context).pop();
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.add_alert_rounded),
-            title: const Text('Atendimeto de Ocorrencia'),
-            subtitle: const Text('Atender/Validar Ocorrencias'),
-            onTap: () {
-              Navigator.of(context).pushNamed('');
+              Modular.to.pushNamed('/home/ocurrency');
+              Modular.to.pop();
             },
           ),
           ListTile(
@@ -81,11 +76,42 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: const Text('Sair'),
             subtitle: const Text('Encerrar Sessão'),
             onTap: () async {
-              await store.logout().then((value) {
-                Navigator.of(context).pushReplacementNamed('/home/login');
+              await store.logout().then((value) async {
+                Modular.to.pop();
+                await Future.delayed(const Duration(milliseconds: 250));
+                Modular.to.pushReplacementNamed('/');
               });
             },
           ),
+          userStore.state.isAdmin == true
+              ? Column(
+                  children: [
+                    Divider(height: 2, color: Theme.of(context).primaryColor),
+                    ListTile(
+                      leading: const Icon(Icons.admin_panel_settings),
+                      title: const Text('Gerenciar usuários'),
+                      subtitle: const Text('Administrar premissões'),
+                      onTap: () async {
+                        // await store.logout().then((value) {
+                        //   Modular.to
+                        //       .pushReplacementNamed('/home/users');
+                        // });
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.list),
+                      title: const Text('Ocorrências'),
+                      subtitle: const Text('Administrar ocorrências'),
+                      onTap: () async {
+                        // await store.logout().then((value) {
+                        //   Modular.to
+                        //       .pushReplacementNamed('/home/users');
+                        // });
+                      },
+                    ),
+                  ],
+                )
+              : Container(),
         ],
       ),
     );

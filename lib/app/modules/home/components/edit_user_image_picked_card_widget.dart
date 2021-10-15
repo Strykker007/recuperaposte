@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:recuperaposte/app/modules/post/stores/image_picked_store.dart';
-
+import 'package:recuperaposte/app/modules/home/stores/edit_user_image_picked_store.dart';
 import 'dart:io';
 
-class ImagePickedCardWidget extends StatelessWidget {
+class EditUserImagePickedCardWidget extends StatelessWidget {
   final File file;
-  const ImagePickedCardWidget({Key? key, required this.file}) : super(key: key);
+  const EditUserImagePickedCardWidget({
+    Key? key,
+    required this.file,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ImagePickerStore imagePickerStore = Modular.get();
+    final EditUserImagePickerStore imagePickerStore = Modular.get();
     return Stack(
       children: [
         Container(

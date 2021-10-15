@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
+import 'package:recuperaposte/app/modules/home/stores/quantity_ocurrency_home_card_store.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
 import 'package:recuperaposte/app/shared/custom_drawer.dart';
@@ -18,7 +19,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends ModularState<HomePage, HomeStore> {
   LoginStore loginStore = Modular.get();
+  final QuantityOcurrencyHomeCardStore ocurrencyStore = Modular.get();
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+  @override
+  void initState() {
+    ocurrencyStore.getQuantityOcurrencies();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,28 +46,33 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
       body: Stack(
         children: [
           const BackGroundWidget(),
-          Column(
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              HomeHeaderWidget(scaffoldKey: _key),
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.all(10),
-                    child: Column(
-                      children: const [
-                        OcurrencyCardWidget(),
-                      ],
+          RefreshIndicator(
+            onRefresh: () async {
+              await ocurrencyStore.getQuantityOcurrencies();
+            },
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                HomeHeaderWidget(scaffoldKey: _key),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      child: Column(
+                        children: const [
+                          OcurrencyCardWidget(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
