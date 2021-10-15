@@ -109,6 +109,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         // });
                       },
                     ),
+                    ListTile(
+                      leading: const Icon(Icons.admin_panel_settings),
+                      title: const Text('Cadastrar Poste'),
+                      subtitle: const Text('Administrar premissões'),
+                      onTap: () async {
+                        // await store.logout().then((value) {
+                        //   Modular.to
+                        //       .pushReplacementNamed('/home/users');
+                        // });
+                      },
+                    ),
                   ],
                 )
               : Container(),
