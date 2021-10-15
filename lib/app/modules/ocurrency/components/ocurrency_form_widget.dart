@@ -4,8 +4,8 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
 import 'package:recuperaposte/app/modules/ocurrency/components/ocurrency_image_picked_card_widget.dart';
 
-import 'package:recuperaposte/app/modules/ocurrency/ocurrency_store.dart';
 import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_image_picked_store.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_store.dart';
 import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';

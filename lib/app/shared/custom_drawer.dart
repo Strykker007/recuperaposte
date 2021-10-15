@@ -68,10 +68,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: const Text('Registrar Ocorrencia'),
             subtitle: const Text('Registrar uma nova ocorrencia'),
             onTap: () async {
+              Modular.to.pop();
               Modular.to.pushNamed('/home/ocurrency');
-              Modular.to.pop();
               await Future.delayed(const Duration(milliseconds: 40));
-              Modular.to.pop();
             },
           ),
           ListTile(
@@ -105,10 +104,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       title: const Text('Ocorrências'),
                       subtitle: const Text('Consultar ocorrências'),
                       onTap: () async {
-                        // await store.logout().then((value) {
-                        //   Modular.to
-                        //       .pushReplacementNamed('/home/users');
-                        // });
+                        Modular.to.pop();
+                        await Future.delayed(const Duration(milliseconds: 40));
+                        Modular.to.pushNamed('/home/ocurrency/manageOcurrency');
                       },
                     ),
                     ListTile(

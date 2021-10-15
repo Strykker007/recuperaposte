@@ -12,6 +12,7 @@ class TextFieldWidget extends StatelessWidget {
   final Function(String?)? onSaved;
   final Function(String?)? onChanged;
   final Widget? suffixIcon;
+  final String? hintText;
   const TextFieldWidget({
     Key? key,
     this.autoFocus = false,
@@ -25,6 +26,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onSaved,
     this.onChanged,
     this.suffixIcon,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class TextFieldWidget extends StatelessWidget {
       keyboardType: textInputType,
       obscureText: obscureText,
       decoration: InputDecoration(
+        hintText: hintText,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),

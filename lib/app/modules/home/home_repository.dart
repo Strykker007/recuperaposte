@@ -113,8 +113,6 @@ class HomeRepository extends Disposable {
 
   Future<void> updateUser(UserModel user) async {
     try {
-      String downloadUrl = '';
-
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user.id)

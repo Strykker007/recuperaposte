@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/home/components/manage_user_tile_widget.dart';
 import 'package:recuperaposte/app/modules/home/stores/search_textfield_store.dart';
 import 'package:recuperaposte/app/modules/home/stores/user_manager_store.dart';
+import 'package:recuperaposte/app/modules/ocurrency/components/manage_ocurrency_tile.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_manager_status_store.dart';
 import 'package:recuperaposte/app/shared/arrow_back_widget.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
 import 'package:recuperaposte/app/shared/confirm_dialog.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
-class UserManagerPage extends StatefulWidget {
-  const UserManagerPage({Key? key}) : super(key: key);
+class AdminOcurrencyStatusPage extends StatefulWidget {
+  const AdminOcurrencyStatusPage({Key? key}) : super(key: key);
 
   @override
-  _UserManagerPageState createState() => _UserManagerPageState();
+  _AdminOcurrencyStatusPageState createState() =>
+      _AdminOcurrencyStatusPageState();
 }
 
-class _UserManagerPageState
-    extends ModularState<UserManagerPage, UserManagerStore> {
+class _AdminOcurrencyStatusPageState extends ModularState<
+    AdminOcurrencyStatusPage, OcurrencyManagerStatusStore> {
   final TextEditingController searchController =
       TextEditingController(text: '');
   final SearchTextFieldStore textFieldStore = Modular.get();
   @override
   void initState() {
-    store.getUsers();
+    store.getOcurrencies();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TripleBuilder<UserManagerStore, Exception, List<UserModel>>(
+      body: TripleBuilder<OcurrencyManagerStatusStore, Exception,
+          List<OcurrencyModel>>(
         builder: (_, triple) {
           Widget loading = Container();
           if (triple.isLoading) {
@@ -42,7 +47,7 @@ class _UserManagerPageState
             children: [
               const BackGroundWidget(),
               const Positioned(
-                top: 75,
+                top: 90,
                 left: 20,
                 child: ArrowBackWidget(),
               ),
@@ -56,7 +61,7 @@ class _UserManagerPageState
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Usuários',
+                          'Gerenciar Ocorrências',
                           style:
                               Theme.of(context).textTheme.headline5!.copyWith(
                                     color: Theme.of(context).primaryColor,
@@ -73,16 +78,16 @@ class _UserManagerPageState
                                 children: [
                                   TextFieldWidget(
                                     label: 'Pesquisar',
-                                    hintText: 'Digite o nome do usuário',
+                                    hintText: 'Digite o número do protocolo',
                                     controller: searchController,
-                                    suffixIcon: IconButton(
-                                      icon: textFieldStore.state.isEmpty
-                                          ? const Icon(Icons.search)
-                                          : const Icon(Icons.close),
-                                      onPressed: textFieldStore.state.isEmpty
-                                          ? searchByText
-                                          : searchAllUsers,
-                                    ),
+                                    // suffixIcon: IconButton(
+                                    //   icon: textFieldStore.state.isEmpty
+                                    //       ? const Icon(Icons.search)
+                                    //       : const Icon(Icons.close),
+                                    //   onPressed: textFieldStore.state.isEmpty
+                                    //       ? searchByText
+                                    //       : searchAllUsers,
+                                    // ),
                                   ),
                                   const Divider(color: Colors.black),
                                 ],
@@ -111,33 +116,33 @@ class _UserManagerPageState
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return ConfirmDialog(
-                                            message: store
-                                                        .state[index].isAdmin ==
-                                                    true
-                                                ? 'Tem certeza que deseja remover os privilégios desse usuário?'
-                                                : 'Tem certeza que deseja tornar esse usuário um administrador?',
-                                            onConfirm: () async {
-                                              await store
-                                                  .updateUser(
-                                                store.state[index],
-                                              )
-                                                  .then((value) {
-                                                textFieldStore.state.isEmpty
-                                                    ? searchByText
-                                                    : searchAllUsers;
-                                                Modular.to.pop();
-                                              });
-                                            },
-                                          );
-                                        },
-                                      );
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (context) {
+                                      //     return ConfirmDialog(
+                                      //       message: store
+                                      //                   .state[index].isAdmin ==
+                                      //               true
+                                      //           ? 'Tem certeza que deseja remover os privilégios desse usuário?'
+                                      //           : 'Tem certeza que deseja tornar esse usuário um administrador?',
+                                      //       onConfirm: () async {
+                                      //         await store
+                                      //             .updateUser(
+                                      //           store.state[index],
+                                      //         )
+                                      //             .then((value) {
+                                      //           textFieldStore.state.isEmpty
+                                      //               ? searchByText
+                                      //               : searchAllUsers;
+                                      //           Modular.to.pop();
+                                      //         });
+                                      //       },
+                                      //     );
+                                      //   },
+                                      // );
                                     },
-                                    child: ManageUserTile(
-                                      user: store.state[index],
+                                    child: ManageOcurrencyTile(
+                                      ocurrency: store.state[index],
                                     ),
                                   );
                                 },
@@ -155,21 +160,21 @@ class _UserManagerPageState
     );
   }
 
-  void searchByText() async {
-    textFieldStore.update(searchController.text);
-    if (textFieldStore.state.isNotEmpty) {
-      await store.getFilteredUsers(
-        textFieldStore.state,
-      );
-    } else {
-      await store.getUsers();
-    }
-    searchController.text = textFieldStore.state;
-  }
+  // void searchByText() async {
+  //   textFieldStore.update(searchController.text);
+  //   if (textFieldStore.state.isNotEmpty) {
+  //     await store.getFilteredUsers(
+  //       textFieldStore.state,
+  //     );
+  //   } else {
+  //     await store.getUsers();
+  //   }
+  //   searchController.text = textFieldStore.state;
+  // }
 
-  void searchAllUsers() async {
-    searchController.text = '';
-    await store.getUsers();
-    textFieldStore.update('');
-  }
+  // void searchAllUsers() async {
+  //   searchController.text = '';
+  //   await store.getUsers();
+  //   textFieldStore.update('');
+  // }
 }

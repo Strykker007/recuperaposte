@@ -2,8 +2,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
 import 'package:recuperaposte/app/modules/ocurrency/components/ocurrency_form_widget.dart';
-import 'package:recuperaposte/app/modules/ocurrency/ocurrency_store.dart';
 import 'package:flutter/material.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_store.dart';
+import 'package:recuperaposte/app/shared/arrow_back_widget.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 
@@ -30,29 +31,10 @@ class OcurrencyPageState extends State<OcurrencyPage> {
           return Stack(
             children: [
               const BackGroundWidget(),
-              Positioned(
-                top: 90,
+              const Positioned(
+                top: 80,
                 left: 20,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      Text(
-                        'Voltar',
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 15,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: ArrowBackWidget(),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 50),

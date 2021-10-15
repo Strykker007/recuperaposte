@@ -51,12 +51,35 @@ class OcurrencyRepository extends Disposable {
 
       ocurrency.urlPhoto = downloadUrl;
 
+      var snapshot = await FirebaseFirestore.instance
+          .collection('utils')
+          .doc('protocolSequence')
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      ocurrency.protocol = snapshot['id'];
+
       await FirebaseFirestore.instance
           .collection('ocorrencias')
-          .doc()
+          .doc(ocurrency.protocol.toString())
           .set(ocurrency.toMap())
           .then((result) {})
           .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      int id = snapshot['id'] + 1;
+
+      await FirebaseFirestore.instance
+          .collection('utils')
+          .doc('protocolSequence')
+          .set({'id': id}).catchError(
         (onError) {
           throw onError;
         },
@@ -66,6 +89,27 @@ class OcurrencyRepository extends Disposable {
       rethrow;
     } catch (e) {
       log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<OcurrencyModel>> getOcurrencies() async {
+    List<OcurrencyModel> ocurrencies = [];
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('ocorrencias')
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      for (var element in snapshot.docs) {
+        ocurrencies.add(OcurrencyModel.fromMap(element.data()));
+      }
+      return ocurrencies;
+    } catch (e) {
       rethrow;
     }
   }

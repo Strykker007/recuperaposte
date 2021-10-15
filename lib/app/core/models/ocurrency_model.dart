@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class OcurrencyModel {
-  late String? protocol;
+  late int? protocol;
   late String? date;
   late String? description;
   late String? urlPhoto;
@@ -46,6 +46,7 @@ class OcurrencyModel {
       latitude: map['latitude'],
       longitude: map['longitude'],
       userId: map['userId'],
+      protocol: map['protocol'],
     );
   }
 

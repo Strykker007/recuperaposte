@@ -21,42 +21,51 @@ class ManageUserTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           color: Theme.of(context).backgroundColor,
         ),
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  user.name.toString(),
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                user.isAdmin == true
-                    ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: Colors.green,
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.all(2),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 1, horizontal: 3),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: Colors.white,
-                          ),
-                          child: const Text('Admin'),
-                        ),
-                      )
-                    : Container()
-              ],
+            SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Nome: ${user.name.toString()}',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(
+                    'Nome: ${user.email.toString()}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontSize: 15),
+                  ),
+                ],
+              ),
             ),
-            Text(
-              user.email.toString(),
-              style:
-                  Theme.of(context).textTheme.headline6!.copyWith(fontSize: 15),
-            ),
+            user.isAdmin == true
+                ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.green,
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 1, horizontal: 3),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                      ),
+                      child: const Text('Admin'),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

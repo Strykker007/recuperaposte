@@ -5,7 +5,7 @@ import 'package:recuperaposte/app/modules/home/home_repository.dart';
 
 class UserManagerStore extends NotifierStore<Exception, List<UserModel>> {
   final HomeRepository _repository = Modular.get();
-  String searchText = '';
+  final String searchText = '';
   UserManagerStore() : super([]);
 
   Future<void> getUsers() async {
