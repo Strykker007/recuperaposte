@@ -1,16 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/ocurrency_model.dart';
-import 'package:recuperaposte/app/core/models/user_model.dart';
-import 'package:recuperaposte/app/modules/home/components/manage_user_tile_widget.dart';
 import 'package:recuperaposte/app/modules/home/stores/search_textfield_store.dart';
-import 'package:recuperaposte/app/modules/home/stores/user_manager_store.dart';
 import 'package:recuperaposte/app/modules/ocurrency/components/manage_ocurrency_tile.dart';
 import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_manager_status_store.dart';
 import 'package:recuperaposte/app/shared/arrow_back_widget.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
-import 'package:recuperaposte/app/shared/confirm_dialog.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
 
@@ -27,8 +24,10 @@ class _AdminOcurrencyStatusPageState extends ModularState<
   final TextEditingController searchController =
       TextEditingController(text: '');
   final SearchTextFieldStore textFieldStore = Modular.get();
+  FocusNode textFocus = FocusNode();
   @override
   void initState() {
+    textFieldStore.update('');
     store.getOcurrencies();
     super.initState();
   }
@@ -77,17 +76,26 @@ class _AdminOcurrencyStatusPageState extends ModularState<
                               child: Column(
                                 children: [
                                   TextFieldWidget(
+                                    focusNode: textFocus,
                                     label: 'Pesquisar',
                                     hintText: 'Digite o número do protocolo',
                                     controller: searchController,
-                                    // suffixIcon: IconButton(
-                                    //   icon: textFieldStore.state.isEmpty
-                                    //       ? const Icon(Icons.search)
-                                    //       : const Icon(Icons.close),
-                                    //   onPressed: textFieldStore.state.isEmpty
-                                    //       ? searchByText
-                                    //       : searchAllUsers,
-                                    // ),
+                                    onChanged: (value) async {
+                                      if (value!.isEmpty) {
+                                        searchController.text = '';
+                                        await store.getOcurrencies();
+                                        textFieldStore.update('');
+                                        textFocus.unfocus();
+                                      }
+                                    },
+                                    suffixIcon: IconButton(
+                                      icon: textFieldStore.state.isEmpty
+                                          ? const Icon(Icons.search)
+                                          : const Icon(Icons.close),
+                                      onPressed: textFieldStore.state.isEmpty
+                                          ? searchByProtocol
+                                          : searchAllOcurrencies,
+                                    ),
                                   ),
                                   const Divider(color: Colors.black),
                                 ],
@@ -104,50 +112,15 @@ class _AdminOcurrencyStatusPageState extends ModularState<
                           style: Theme.of(context).textTheme.headline6,
                         )
                       : Expanded(
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics(),
-                            ),
-                            child: RefreshIndicator(
-                              onRefresh: () async {},
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: store.state.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (context) {
-                                      //     return ConfirmDialog(
-                                      //       message: store
-                                      //                   .state[index].isAdmin ==
-                                      //               true
-                                      //           ? 'Tem certeza que deseja remover os privilégios desse usuário?'
-                                      //           : 'Tem certeza que deseja tornar esse usuário um administrador?',
-                                      //       onConfirm: () async {
-                                      //         await store
-                                      //             .updateUser(
-                                      //           store.state[index],
-                                      //         )
-                                      //             .then((value) {
-                                      //           textFieldStore.state.isEmpty
-                                      //               ? searchByText
-                                      //               : searchAllUsers;
-                                      //           Modular.to.pop();
-                                      //         });
-                                      //       },
-                                      //     );
-                                      //   },
-                                      // );
-                                    },
-                                    child: ManageOcurrencyTile(
-                                      ocurrency: store.state[index],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: store.state.length,
+                            itemBuilder: (context, index) {
+                              return ManageOcurrencyTile(
+                                queryparam: searchController.text,
+                                ocurrency: store.state[index],
+                              );
+                            },
                           ),
                         ),
                 ],
@@ -160,21 +133,23 @@ class _AdminOcurrencyStatusPageState extends ModularState<
     );
   }
 
-  // void searchByText() async {
-  //   textFieldStore.update(searchController.text);
-  //   if (textFieldStore.state.isNotEmpty) {
-  //     await store.getFilteredUsers(
-  //       textFieldStore.state,
-  //     );
-  //   } else {
-  //     await store.getUsers();
-  //   }
-  //   searchController.text = textFieldStore.state;
-  // }
+  void searchByProtocol() async {
+    textFieldStore.update(searchController.text);
+    if (textFieldStore.state.isNotEmpty) {
+      await store.getFilteredOcurrencies(
+        textFieldStore.state,
+      );
+    } else {
+      await store.getOcurrencies();
+    }
+    searchController.text = textFieldStore.state;
+    textFocus.unfocus();
+  }
 
-  // void searchAllUsers() async {
-  //   searchController.text = '';
-  //   await store.getUsers();
-  //   textFieldStore.update('');
-  // }
+  void searchAllOcurrencies() async {
+    searchController.text = '';
+    await store.getOcurrencies();
+    textFieldStore.update('');
+    textFocus.unfocus();
+  }
 }

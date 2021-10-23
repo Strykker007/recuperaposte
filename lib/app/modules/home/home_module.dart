@@ -1,7 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:recuperaposte/app/modules/home/home_page.dart';
 import 'package:recuperaposte/app/modules/home/pages/edit_user_page.dart';
+import 'package:recuperaposte/app/modules/home/pages/ocurrency_list_page.dart';
 import 'package:recuperaposte/app/modules/home/stores/home_store.dart';
+import 'package:recuperaposte/app/modules/home/stores/ocurrency_list_store.dart';
 import 'package:recuperaposte/app/modules/home/stores/search_textfield_store.dart';
 // import 'package:recuperaposte/app/modules/login/pages/login_page.dart';
 import 'package:recuperaposte/app/modules/ocurrency/ocurrency_module.dart';
@@ -23,6 +25,7 @@ class HomeModule extends Module {
     Bind.lazySingleton((i) => EditUserStore()),
     Bind.lazySingleton((i) => UserManagerStore()),
     Bind.lazySingleton((i) => SearchTextFieldStore()),
+    Bind.lazySingleton((i) => OcurrencyListStore()),
   ];
 
   @override
@@ -33,6 +36,7 @@ class HomeModule extends Module {
     ),
     ChildRoute('/edituser', child: (_, args) => const EditUserPage()),
     ChildRoute('/userManager', child: (_, args) => const UserManagerPage()),
+    ChildRoute('/ocurrencyList', child: (_, args) => const OcurrencyListPage()),
     ModuleRoute('/ocurrency', module: OcurrencyModule()),
     ModuleRoute('/createPost', module: PostModule()),
   ];

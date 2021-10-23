@@ -29,4 +29,63 @@ class OcurrencyManagerStatusStore
 
     setLoading(false);
   }
+
+  Future<void> getFilteredOcurrencies(String protocol) async {
+    setLoading(true);
+
+    int protocolToInt = int.parse(protocol);
+
+    try {
+      await _repository
+          .getFilteredOcurrencies(protocolToInt)
+          .then((ocurrencies) {
+        update(ocurrencies);
+      });
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      log(e.toString());
+      throw Exception();
+    }
+    setLoading(false);
+  }
+
+  Future<void> updateOcurrency(
+      OcurrencyModel ocurrency, String operation) async {
+    setLoading(true);
+    int currentStatus = ocurrency.status as int;
+    if (operation == 'next') {
+      ocurrency.status = currentStatus + 1;
+    }
+    if (operation == 'previous') {
+      ocurrency.status = currentStatus - 1;
+    }
+    if (operation == 'cancel') {
+      ocurrency.status = 4;
+    }
+
+    try {
+      await _repository.updateOcurrency(ocurrency);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      log(e.toString());
+      throw Exception();
+    }
+    setLoading(false);
+  }
+
+  Future<void> updateUrgency(OcurrencyModel ocurrency) async {
+    setLoading(true);
+
+    try {
+      await _repository.updateOcurrency(ocurrency);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      log(e.toString());
+      throw Exception();
+    }
+    setLoading(false);
+  }
 }

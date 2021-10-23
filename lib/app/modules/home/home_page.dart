@@ -64,8 +64,13 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                     child: Container(
                       margin: const EdgeInsets.all(10),
                       child: Column(
-                        children: const [
-                          OcurrencyCardWidget(),
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Modular.to.pushNamed('/home/ocurrencyList');
+                            },
+                            child: OcurrencyCardWidget(),
+                          ),
                         ],
                       ),
                     ),

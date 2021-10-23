@@ -6,6 +6,7 @@ import 'package:recuperaposte/app/modules/ocurrency/components/ocurrency_image_p
 
 import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_image_picked_store.dart';
 import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_store.dart';
+import 'package:select_form_field/select_form_field.dart';
 import 'package:recuperaposte/app/shared/commom_dialog.dart';
 import 'package:recuperaposte/app/shared/common_button_widget.dart';
 import 'package:recuperaposte/app/shared/textfield_widget.dart';
@@ -25,11 +26,28 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
     final GlobalKey<FormState> _formKey = GlobalKey();
     final TextEditingController postNumberController = TextEditingController();
     final TextEditingController descriptionController = TextEditingController();
+    final TextEditingController addressController = TextEditingController();
+    final TextEditingController postTypeController = TextEditingController();
     XFile? photo = XFile('');
     final ImagePicker imagePicker = ImagePicker();
     File photoToFile = File('');
     final OcurrencyImagePickerStore imagePickerStore = Modular.get();
     final OcurrencyStore store = Modular.get();
+
+    final List<Map<String, dynamic>> _items = [
+      {
+        'value': 'Poste',
+        'label': 'Poste',
+      },
+      {
+        'value': 'Cabo',
+        'label': 'Cabo',
+      },
+      {
+        'value': 'Iluminação',
+        'label': 'Iluminação',
+      },
+    ];
 
     return Form(
       key: _formKey,
@@ -50,27 +68,10 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
             ),
           ),
           const SizedBox(
-            height: 20,
-          ),
-          TextFieldWidget(
-            textInputType:
-                const TextInputType.numberWithOptions(decimal: false),
-            prefixIcon: const Icon(Icons.light),
-            label: 'Número do poste',
-            controller: postNumberController,
-            onSaved: (postNumber) {
-              store.state.postNumber = postNumber;
-            },
-            validator: (text) {
-              if (text!.isEmpty) {
-                return 'Este campo não pode ser vazio';
-              } else {
-                return null;
-              }
-            },
+            height: 15,
           ),
           const SizedBox(
-            height: 20,
+            height: 15,
           ),
           TextFieldWidget(
             prefixIcon: const Icon(Icons.list_alt),
@@ -85,6 +86,44 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
               } else {
                 return null;
               }
+            },
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          TextFieldWidget(
+            prefixIcon: const Icon(Icons.home),
+            label: 'Endereço',
+            controller: addressController,
+            onSaved: (address) {
+              store.state.address = address;
+            },
+            validator: (text) {
+              if (text!.isEmpty) {
+                return 'Este campo não pode ser vazio';
+              } else {
+                return null;
+              }
+            },
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          SelectFormField(
+            controller: postTypeController,
+            type: SelectFormFieldType.dropdown,
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.list),
+              hintText: 'Problema',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+            ),
+            labelText: 'Shape',
+            items: _items,
+            onSaved: (val) {
+              postTypeController.text = val as String;
+              store.state.problemType = val;
             },
           ),
           const SizedBox(

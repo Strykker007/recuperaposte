@@ -10,6 +10,9 @@ class OcurrencyModel {
   late double? latitude;
   late double? longitude;
   late String? userId;
+  late String? address;
+  late String? problemType;
+  late String? urgency;
   OcurrencyModel({
     this.protocol,
     this.date,
@@ -20,6 +23,9 @@ class OcurrencyModel {
     this.latitude,
     this.longitude,
     this.userId,
+    this.address,
+    this.problemType,
+    this.urgency,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +39,9 @@ class OcurrencyModel {
       'latitude': latitude,
       'longitude': longitude,
       'userId': userId,
+      'address': address,
+      'problemType': problemType,
+      'urgency': urgency,
     };
   }
 
@@ -47,6 +56,9 @@ class OcurrencyModel {
       longitude: map['longitude'],
       userId: map['userId'],
       protocol: map['protocol'],
+      address: map['address'],
+      problemType: map['problemType'],
+      urgency: map['urgency'],
     );
   }
 

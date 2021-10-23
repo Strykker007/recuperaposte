@@ -114,6 +114,85 @@ class OcurrencyRepository extends Disposable {
     }
   }
 
+  Future<OcurrencyModel> getOcurrency(int protocol) async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('ocorrencias')
+          .doc(protocol.toString())
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      OcurrencyModel model =
+          OcurrencyModel.fromMap(snapshot.data() as Map<String, dynamic>);
+      return model;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<OcurrencyModel>> getFilteredOcurrencies(int protocol) async {
+    List<OcurrencyModel> ocurrencies = [];
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('ocorrencias')
+          .where('protocol', isEqualTo: protocol)
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      for (var element in snapshot.docs) {
+        ocurrencies.add(OcurrencyModel.fromMap(element.data()));
+      }
+      return ocurrencies;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateOcurrency(OcurrencyModel ocurrency) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('ocorrencias')
+          .doc(ocurrency.protocol.toString())
+          .set(ocurrency.toMap())
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<OcurrencyModel> getOcurrencyByProtocol(int protocol) async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('ocorrencias')
+          .doc(protocol.toString())
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      OcurrencyModel result =
+          OcurrencyModel.fromMap(snapshot.data() as Map<String, dynamic>);
+
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   void dispose() {}
 }

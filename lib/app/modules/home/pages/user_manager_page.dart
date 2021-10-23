@@ -23,8 +23,10 @@ class _UserManagerPageState
   final TextEditingController searchController =
       TextEditingController(text: '');
   final SearchTextFieldStore textFieldStore = Modular.get();
+  FocusNode textFocus = FocusNode();
   @override
   void initState() {
+    textFieldStore.update('');
     store.getUsers();
     super.initState();
   }
@@ -72,9 +74,18 @@ class _UserManagerPageState
                               child: Column(
                                 children: [
                                   TextFieldWidget(
+                                    focusNode: textFocus,
                                     label: 'Pesquisar',
                                     hintText: 'Digite o nome do usuário',
                                     controller: searchController,
+                                    onChanged: (value) async {
+                                      if (value!.isEmpty) {
+                                        searchController.text = '';
+                                        await store.getUsers();
+                                        textFieldStore.update('');
+                                        textFocus.unfocus();
+                                      }
+                                    },
                                     suffixIcon: IconButton(
                                       icon: textFieldStore.state.isEmpty
                                           ? const Icon(Icons.search)
@@ -125,12 +136,14 @@ class _UserManagerPageState
                                                   .updateUser(
                                                 store.state[index],
                                               )
-                                                  .then((value) {
-                                                textFieldStore.state.isEmpty
-                                                    ? searchByText
-                                                    : searchAllUsers;
-                                                Modular.to.pop();
-                                              });
+                                                  .then(
+                                                (value) {
+                                                  textFieldStore.state.isEmpty
+                                                      ? searchByText
+                                                      : searchAllUsers;
+                                                  Modular.to.pop();
+                                                },
+                                              );
                                             },
                                           );
                                         },
@@ -165,11 +178,13 @@ class _UserManagerPageState
       await store.getUsers();
     }
     searchController.text = textFieldStore.state;
+    textFocus.unfocus();
   }
 
   void searchAllUsers() async {
     searchController.text = '';
     await store.getUsers();
     textFieldStore.update('');
+    textFocus.unfocus();
   }
 }

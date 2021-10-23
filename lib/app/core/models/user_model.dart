@@ -7,6 +7,7 @@ class UserModel {
   late String? email;
   late bool? isAdmin;
   late String? address;
+  late String? cpf;
   UserModel({
     this.id,
     this.name,
@@ -14,6 +15,7 @@ class UserModel {
     this.email,
     this.isAdmin,
     this.address,
+    this.cpf,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,7 +24,8 @@ class UserModel {
       'avatarUrl': avatarUrl,
       'email': email,
       'isAdmin': isAdmin,
-      'address': address
+      'address': address,
+      'cpf': cpf,
     };
   }
 
@@ -33,6 +36,7 @@ class UserModel {
       email: map['email'],
       isAdmin: map['isAdmin'],
       address: map['address'],
+      cpf: map['cpf'],
     );
   }
 

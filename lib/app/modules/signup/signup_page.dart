@@ -21,6 +21,10 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController password1 = TextEditingController();
   final TextEditingController password2 = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController cpfController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +111,13 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                                 textInputType: TextInputType.text,
                                 prefixIcon: const Icon(Icons.person),
                                 label: 'Nome',
+                                controller: nameController,
                                 onChanged: (value) {
+                                  store.state.name = value;
+                                  store.updateForm(store.state);
+                                },
+                                onSaved: (value) {
+                                  nameController.text = value as String;
                                   store.state.name = value;
                                   store.updateForm(store.state);
                                 },
@@ -126,6 +136,37 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                                 textInputType: TextInputType.text,
                                 prefixIcon: const Icon(Icons.home),
                                 label: 'Endereço',
+                                controller: addressController,
+                                onSaved: (value) {
+                                  addressController.text = value as String;
+                                  store.state.address = value;
+                                  store.updateForm(store.state);
+                                },
+                                onChanged: (value) {
+                                  store.state.address = value;
+                                  store.updateForm(store.state);
+                                },
+                                validator: (text) {
+                                  if (text!.isEmpty) {
+                                    return 'Este campo não pode ser vazio';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFieldWidget(
+                                textInputType: TextInputType.text,
+                                prefixIcon: const Icon(Icons.home),
+                                label: 'CPF',
+                                controller: cpfController,
+                                onSaved: (value) {
+                                  cpfController.text = value as String;
+                                  store.state.address = value;
+                                  store.updateForm(store.state);
+                                },
                                 onChanged: (value) {
                                   store.state.address = value;
                                   store.updateForm(store.state);
@@ -165,6 +206,12 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                                 textInputType: TextInputType.emailAddress,
                                 prefixIcon: const Icon(Icons.home),
                                 label: 'E-mail',
+                                controller: emailController,
+                                onSaved: (value) {
+                                  emailController.text = value as String;
+                                  store.state.email = value;
+                                  store.updateForm(store.state);
+                                },
                                 onChanged: (value) {
                                   store.state.email = value;
                                   store.updateForm(store.state);

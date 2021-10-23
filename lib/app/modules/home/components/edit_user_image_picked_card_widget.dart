@@ -5,9 +5,11 @@ import 'dart:io';
 
 class EditUserImagePickedCardWidget extends StatelessWidget {
   final File file;
+  final String url;
   const EditUserImagePickedCardWidget({
     Key? key,
     required this.file,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -30,57 +32,67 @@ class EditUserImagePickedCardWidget extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(15),
                 )
-              : ClipRRect(
-                  child: Image.asset(
-                    'assets/imagens/empty-photo.jpg',
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
+              : url.isNotEmpty
+                  ? ClipRRect(
+                      child: Image.network(
+                        url.toString(),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    )
+                  : ClipRRect(
+                      child: Image.asset(
+                        'assets/imagens/empty-photo.jpg',
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
         ),
         Positioned(
           right: 5,
-          child: GestureDetector(
-            onTap: file.path.length > 1
-                ? () {
-                    imagePickerStore.update(
-                      File(''),
-                    );
-                  }
-                : null,
-            child: file.path.length > 1
-                ? Align(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(
-                          width: 2,
-                          color: Colors.black,
+          child: url.isEmpty
+              ? GestureDetector(
+                  onTap: file.path.length > 1
+                      ? () {
+                          imagePickerStore.update(
+                            File(file.path),
+                          );
+                        }
+                      : null,
+                  child: file.path.length > 1 || url.length > 1
+                      ? Align(
+                          child: Container(
+                            margin: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                width: 2,
+                                color: Colors.black,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.cancel,
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      : Align(
+                          child: Container(
+                            margin: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(
+                                width: 2,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                         ),
-                      ),
-                      child: const Icon(
-                        Icons.cancel,
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-                : Align(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(
-                          width: 2,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-          ),
+                )
+              : Container(),
         )
       ],
     );

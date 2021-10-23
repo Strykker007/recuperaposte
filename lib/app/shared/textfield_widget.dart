@@ -13,6 +13,7 @@ class TextFieldWidget extends StatelessWidget {
   final Function(String?)? onChanged;
   final Widget? suffixIcon;
   final String? hintText;
+  final FocusNode? focusNode;
   const TextFieldWidget({
     Key? key,
     this.autoFocus = false,
@@ -27,11 +28,13 @@ class TextFieldWidget extends StatelessWidget {
     this.onChanged,
     this.suffixIcon,
     this.hintText,
+    this.focusNode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       initialValue: initialValue,
       controller: controller,
       autofocus: autoFocus,

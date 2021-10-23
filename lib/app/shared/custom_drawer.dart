@@ -28,8 +28,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               UserAccountsDrawerHeader(
                 currentAccountPicture: ClipOval(
                   child: userStore.state.avatarUrl != null
-                      ? Image.network(userStore.state.avatarUrl.toString())
-                      : Image.asset("assets/imagens/profile.png"),
+                      ? Image.network(
+                          userStore.state.avatarUrl.toString(),
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          "assets/imagens/profile.png",
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 accountName: Text('Olá, ${userStore.state.name.toString()}'),
                 accountEmail: Text(userStore.state.email.toString()),

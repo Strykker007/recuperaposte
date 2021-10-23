@@ -12,7 +12,7 @@ class OcurrencyStore extends NotifierStore<Exception, OcurrencyModel> {
   final OcurrencyRepository _repository = Modular.get();
   final UserStore userStore = Modular.get();
 
-  OcurrencyStore() : super(OcurrencyModel(status: 1));
+  OcurrencyStore() : super(OcurrencyModel(status: 1, urgency: 'Baixa'));
 
   Future<void> registerOcurrency(File image) async {
     setLoading(true);
@@ -37,5 +37,26 @@ class OcurrencyStore extends NotifierStore<Exception, OcurrencyModel> {
     }
 
     setLoading(false);
+  }
+
+  Future<OcurrencyModel> updateUrgency(OcurrencyModel ocurrency) async {
+    setLoading(true);
+
+    OcurrencyModel response = OcurrencyModel();
+
+    try {
+      await _repository.updateOcurrency(ocurrency).then((value) async {
+        response = await _repository.getOcurrency(ocurrency.protocol!.toInt());
+      }).catchError((onError) {
+        log(onError.toString());
+      });
+
+      setLoading(false);
+      return response;
+    } catch (e) {
+      setLoading(false);
+      log(e.toString());
+      throw Exception();
+    }
   }
 }

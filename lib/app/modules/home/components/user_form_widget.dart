@@ -23,17 +23,22 @@ class UserFormWidget extends StatefulWidget {
 }
 
 class _UserFormWidgetState extends State<UserFormWidget> {
-  bool wasEdited = false;
   XFile? photo = XFile('');
   File photoToFile = File('');
 
   final UserStore userStore = Modular.get();
   final EditUserStore editUserStore = Modular.get();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final EditUserImagePickerStore imagePickerStore = Modular.get();
   final ImagePicker imagePicker = ImagePicker();
+  final EditUserImagePickerStore imagePickerStore = Modular.get();
+
   @override
   Widget build(BuildContext context) {
+    if (widget.user.avatarUrl != null) {
+      photoToFile = File('');
+      imagePickerStore.update(photoToFile);
+    }
+
     return Form(
       key: _formKey,
       child: Column(
@@ -45,14 +50,15 @@ class _UserFormWidgetState extends State<UserFormWidget> {
 
               photoToFile = File(photo!.path);
               imagePickerStore.update(photoToFile);
-              wasEdited = true;
-              if (imagePickerStore.state.path.isEmpty) {
-                wasEdited = false;
-              }
             },
             child: TripleBuilder<EditUserImagePickerStore, Exception, File>(
               builder: (_, triple) {
-                return EditUserImagePickedCardWidget(file: triple.state);
+                return EditUserImagePickedCardWidget(
+                  url: widget.user.avatarUrl == null
+                      ? ''
+                      : widget.user.avatarUrl as String,
+                  file: photoToFile,
+                );
               },
             ),
           ),
@@ -65,7 +71,6 @@ class _UserFormWidgetState extends State<UserFormWidget> {
             prefixIcon: const Icon(Icons.login),
             label: 'Nome',
             onSaved: (name) {
-              wasEdited = true;
               userStore.state.name = name;
               userStore.update(userStore.state);
             },
@@ -86,8 +91,6 @@ class _UserFormWidgetState extends State<UserFormWidget> {
             prefixIcon: const Icon(Icons.login),
             label: 'Endereço',
             onSaved: (address) {
-              wasEdited = true;
-
               userStore.state.address = address;
               userStore.update(userStore.state);
             },
@@ -106,7 +109,6 @@ class _UserFormWidgetState extends State<UserFormWidget> {
             height: 20,
           ),
           CommonButtonWidget(
-            enabled: wasEdited,
             onTap: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
@@ -135,7 +137,6 @@ class _UserFormWidgetState extends State<UserFormWidget> {
                     );
                   },
                 );
-                wasEdited = false;
               }
             },
             label: 'Salvar',

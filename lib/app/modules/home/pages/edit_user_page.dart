@@ -4,6 +4,7 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/home/components/user_form_widget.dart';
 import 'package:recuperaposte/app/modules/home/stores/edit_user_store.dart';
+import 'package:recuperaposte/app/shared/arrow_back_widget.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
 import 'package:recuperaposte/app/shared/loading_widget.dart';
 import 'package:recuperaposte/app/stores/user_store.dart';
@@ -62,25 +63,7 @@ class _EditUserPageState extends State<EditUserPage> {
               Positioned(
                 top: MediaQuery.of(context).size.height * 0.1,
                 left: MediaQuery.of(context).size.width * 0.05,
-                child: GestureDetector(
-                  onTap: () {
-                    Modular.to.pop();
-                  },
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      Text(
-                        'Voltar',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                child: const ArrowBackWidget(),
               ),
               popup,
             ],

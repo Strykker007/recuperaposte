@@ -4,13 +4,11 @@ class CommonButtonWidget extends StatelessWidget {
   final Function()? onTap;
   final bool isDisabled;
   final String label;
-  final bool enabled;
   const CommonButtonWidget({
     Key? key,
     required this.onTap,
     this.isDisabled = false,
     required this.label,
-    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -21,14 +19,12 @@ class CommonButtonWidget extends StatelessWidget {
         height: 50,
         width: 170,
         decoration: BoxDecoration(
-          color: enabled
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).primaryColor.withOpacity(0.7),
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Text(label),
       ),
-      onTap: enabled ? onTap : null,
+      onTap: onTap,
     );
   }
 }
