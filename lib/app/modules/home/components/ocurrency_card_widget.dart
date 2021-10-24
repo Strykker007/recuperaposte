@@ -12,6 +12,7 @@ class OcurrencyCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final QuantityOcurrencyHomeCardStore store = Modular.get();
     return Container(
+      height: MediaQuery.of(context).size.height * 0.15,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(15),
@@ -95,27 +96,26 @@ class OcurrencyCardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15),
-                        ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Minhas Ocorrências',
-                            style:
-                                Theme.of(context).textTheme.headline6!.copyWith(
-                                      color: Theme.of(context).backgroundColor,
-                                    ),
-                          )
-                        ],
-                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Minhas Ocorrências',
+                          style:
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    color: Theme.of(context).backgroundColor,
+                                  ),
+                        )
+                      ],
                     ),
                   ),
                 ],

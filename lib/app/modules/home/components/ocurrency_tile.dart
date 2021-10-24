@@ -27,7 +27,7 @@ class OcurrencyTile extends StatelessWidget {
     }
 
     return Container(
-      height: 110,
+      height: 120,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -42,96 +42,109 @@ class OcurrencyTile extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
+            SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
                 ),
-              ),
-              height: MediaQuery.of(context).size.height * 0.11,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Nº: ${ocurrency.protocol}',
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                              fontSize: 16,
-                              color: Theme.of(context).primaryColor,
+                height: MediaQuery.of(context).size.height * 0.13,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Nº: ${ocurrency.protocol}',
+                          style:
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    fontSize: 16,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.03,
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
                             ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: MediaQuery.of(context).size.height * 0.03,
-                        child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          scrollDirection: Axis.vertical,
-                          child: Text(
-                            'Descrição: ${ocurrency.description.toString()}',
-                            style:
-                                Theme.of(context).textTheme.headline6!.copyWith(
-                                      fontSize: 12,
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            scrollDirection: Axis.vertical,
+                            child: Text(
+                              'Descrição: ${ocurrency.description.toString()}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                    fontSize: 12,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        status,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                              fontSize: 16,
-                              color: ocurrency.status == 4
-                                  ? Colors.red
-                                  : ocurrency.status == 3
-                                      ? Colors.green
-                                      : ocurrency.status == 2
-                                          ? Colors.yellow
-                                          : Colors.grey,
-                            ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          final availableMaps = await MapLauncher.installedMaps;
-                          await availableMaps.last.showMarker(
-                            coords: Coords(ocurrency.latitude as double,
-                                ocurrency.longitude as double),
-                            title: ocurrency.address.toString(),
-                          );
-                        },
-                        child: Row(
-                          children: const [
-                            Text('Localização'),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Icon(
-                              Icons.map,
-                              size: 20,
-                            ),
-                          ],
+                        Text(
+                          status,
+                          style:
+                              Theme.of(context).textTheme.headline6!.copyWith(
+                                    fontSize: 16,
+                                    color: ocurrency.status == 4
+                                        ? Colors.red
+                                        : ocurrency.status == 3
+                                            ? Colors.green
+                                            : ocurrency.status == 2
+                                                ? Colors.yellow
+                                                : Colors.grey,
+                                  ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final availableMaps =
+                                await MapLauncher.installedMaps;
+                            await availableMaps.last.showMarker(
+                              coords: Coords(ocurrency.latitude as double,
+                                  ocurrency.longitude as double),
+                              title: ocurrency.address.toString(),
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                'Localização',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 3,
+                              ),
+                              Icon(
+                                Icons.map,
+                                size: 20,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
