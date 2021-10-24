@@ -69,7 +69,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                             onTap: () {
                               Modular.to.pushNamed('/home/ocurrencyList');
                             },
-                            child: OcurrencyCardWidget(),
+                            child: const OcurrencyCardWidget(),
                           ),
                         ],
                       ),

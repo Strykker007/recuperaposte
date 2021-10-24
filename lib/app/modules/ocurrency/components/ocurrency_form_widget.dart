@@ -24,7 +24,6 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey();
-    final TextEditingController postNumberController = TextEditingController();
     final TextEditingController descriptionController = TextEditingController();
     final TextEditingController addressController = TextEditingController();
     final TextEditingController postTypeController = TextEditingController();
