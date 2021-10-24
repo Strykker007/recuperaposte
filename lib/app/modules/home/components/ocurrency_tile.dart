@@ -134,17 +134,6 @@ class OcurrencyTile extends StatelessWidget {
                 ],
               ),
             ),
-            // Expanded(
-            //   child: Container(
-            //       decoration: BoxDecoration(
-            //         color: Theme.of(context).primaryColor,
-            //         borderRadius: const BorderRadius.only(
-            //           bottomLeft: Radius.circular(15),
-            //           bottomRight: Radius.circular(15),
-            //         ),
-            //       ),
-            //       child: Text('Minha ocorrencia')),
-            // ),
           ],
         ),
       ),

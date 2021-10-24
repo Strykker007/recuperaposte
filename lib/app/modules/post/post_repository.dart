@@ -70,6 +70,41 @@ class PostRepository extends Disposable {
     return await Geolocator.getCurrentPosition();
   }
 
+  Future<List<PostModel>> getPosts() async {
+    List<PostModel> posts = [];
+    try {
+      var snapshot =
+          await FirebaseFirestore.instance.collection('posts').get().catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      for (var element in snapshot.docs) {
+        posts.add(PostModel.fromMap(element.data()));
+      }
+      return posts;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deletePost(String postNumber) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postNumber)
+          .delete()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   @override
   void dispose() {}
 }

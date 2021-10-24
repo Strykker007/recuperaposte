@@ -9,6 +9,7 @@ class PostModel {
   late String? postType;
   late String? iluminationType;
   late String? ocupation;
+  late String? postState;
   PostModel({
     this.date,
     this.urlPhoto,
@@ -18,6 +19,7 @@ class PostModel {
     this.postType,
     this.iluminationType,
     this.ocupation,
+    this.postState,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class PostModel {
       'postType': postType,
       'iluminationType': iluminationType,
       'ocupation': ocupation,
+      'postState': postState,
     };
   }
 
@@ -43,6 +46,7 @@ class PostModel {
       postType: map['postType'],
       iluminationType: map['iluminationType'],
       ocupation: map['ocupation'],
+      postState: map['postState'],
     );
   }
 

@@ -43,28 +43,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Positioned(
                 bottom: 10,
                 right: 5,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 9,
-                      right: 7,
-                      child: Icon(
-                        Icons.settings,
-                        size: 13,
-                        color: Theme.of(context).backgroundColor,
-                      ),
-                    ),
-                    IconButton(
-                      iconSize: 24,
-                      color: Theme.of(context).backgroundColor,
-                      onPressed: () async {
-                        Modular.to.pop();
-                        await Future.delayed(const Duration(milliseconds: 40));
-                        Modular.to.pushNamed('/home/edituser');
-                      },
-                      icon: const Icon(Icons.person),
-                    ),
-                  ],
+                child: IconButton(
+                  iconSize: 24,
+                  color: Theme.of(context).backgroundColor,
+                  onPressed: () async {
+                    Modular.to.pop();
+                    await Future.delayed(const Duration(milliseconds: 40));
+                    Modular.to.pushNamed('/home/edituser');
+                  },
+                  icon: const Icon(Icons.manage_accounts),
                 ),
               ),
             ],
@@ -123,6 +110,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         Modular.to.pop();
                         await Future.delayed(const Duration(milliseconds: 40));
                         Modular.to.pushNamed('/home/createPost');
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.manage_search),
+                      title: const Text('Consultar Postes'),
+                      subtitle: const Text('Gestão de postes'),
+                      onTap: () async {
+                        Modular.to.pop();
+                        await Future.delayed(const Duration(milliseconds: 40));
+                        Modular.to.pushNamed('/home/createPost/managePost');
                       },
                     ),
                   ],

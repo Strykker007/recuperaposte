@@ -181,8 +181,8 @@ class _PostFormWidgetState extends State<PostFormWidget> {
             labelText: 'Shape',
             items: _itemsPostStatus,
             onSaved: (val) {
-              postTypeController.text = val as String;
-              store.state.postType = val;
+              postStatusController.text = val as String;
+              store.state.postState = val;
             },
           ),
           const SizedBox(
