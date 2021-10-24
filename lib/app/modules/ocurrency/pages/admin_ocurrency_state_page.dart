@@ -76,6 +76,7 @@ class _AdminOcurrencyStatusPageState extends ModularState<
                               child: Column(
                                 children: [
                                   TextFieldWidget(
+                                    textInputType: TextInputType.number,
                                     focusNode: textFocus,
                                     label: 'Pesquisar',
                                     hintText: 'Digite o número do protocolo',

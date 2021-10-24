@@ -48,10 +48,16 @@ class _OcurrencyDetailsPageState extends State<OcurrencyDetailsPage> {
                     const SizedBox(
                       height: 30,
                     ),
-                    Container(
-                      margin: const EdgeInsets.all(15),
-                      child: OcurrencyDetailsFormWidget(
-                        protocol: widget.ocurrency.protocol as int,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        child: Container(
+                          margin: const EdgeInsets.all(15),
+                          child: OcurrencyDetailsFormWidget(
+                            protocol: widget.ocurrency.protocol as int,
+                          ),
+                        ),
                       ),
                     ),
                   ],
