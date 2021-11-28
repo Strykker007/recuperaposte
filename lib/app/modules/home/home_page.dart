@@ -4,6 +4,8 @@ import 'package:flutter_triple/flutter_triple.dart';
 import 'package:recuperaposte/app/core/models/user_model.dart';
 import 'package:recuperaposte/app/modules/home/stores/quantity_ocurrency_home_card_store.dart';
 import 'package:recuperaposte/app/modules/login/stores/login_store.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_store.dart';
+import 'package:recuperaposte/app/modules/post/stores/post_store.dart';
 import 'package:recuperaposte/app/shared/background_widget.dart';
 import 'package:recuperaposte/app/shared/custom_drawer.dart';
 import 'components/home_header_widget.dart';
@@ -20,11 +22,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends ModularState<HomePage, HomeStore> {
   LoginStore loginStore = Modular.get();
   final QuantityOcurrencyHomeCardStore ocurrencyStore = Modular.get();
+  final OcurrencyStore poc = Modular.get();
+  final PostStore postStore = Modular.get();
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
   @override
   void initState() {
     ocurrencyStore.getQuantityOcurrencies();
+    poc.getProblemInfo();
+    postStore.getPostType();
+    postStore.getIluminationType();
+    postStore.getStatusType();
     super.initState();
   }
 

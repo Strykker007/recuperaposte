@@ -30,63 +30,13 @@ class _PostFormWidgetState extends State<PostFormWidget> {
     final TextEditingController postStatusController = TextEditingController();
     final TextEditingController postNumberController = TextEditingController();
     final TextEditingController postTypeController = TextEditingController();
+    final TextEditingController addressController = TextEditingController();
     final TextEditingController ocupationController = TextEditingController();
     XFile? photo = XFile('');
     final ImagePicker imagePicker = ImagePicker();
     File photoToFile = File('');
     final PostImagePickerStore imagePickerStore = Modular.get();
     final PostStore store = Modular.get();
-
-    final List<Map<String, dynamic>> _itemsPostType = [
-      {
-        'value': 'Concreto Quadrado',
-        'label': 'Concreto Quadrado',
-      },
-      {
-        'value': 'Concreto Circular',
-        'label': 'Concreto Circular',
-      },
-      {
-        'value': 'Madeira',
-        'label': 'Madeira',
-      },
-    ];
-    final List<Map<String, dynamic>> _itemsIluminationType = [
-      {
-        'value': 'Não Contém',
-        'label': 'Não Contém',
-      },
-      {
-        'value': 'Vapor de Mercúrio',
-        'label': 'Vapor de Mercúrio',
-      },
-      {
-        'value': 'Vapor de Sódio',
-        'label': 'Vapor de Sódio',
-      },
-      {
-        'value': 'Iodetos Metálicos',
-        'label': 'Iodetos Metálicos',
-      },
-      {
-        'value': 'LED',
-        'label': 'LED',
-      },
-    ];
-    final List<Map<String, dynamic>> _itemsPostStatus = [
-      {
-        'value': 'Ótima Qualidade',
-        'label': 'Ótima Qualidade',
-      },
-      {
-        'value': 'Bom Estado',
-        'label': 'Bom Estado',
-      },
-      {
-        'value': 'Necessitando Trocar',
-        'label': 'Necessitando Trocar',
-      },
-    ];
 
     return Form(
       key: _formKey,
@@ -139,7 +89,7 @@ class _PostFormWidgetState extends State<PostFormWidget> {
               ),
             ),
             labelText: 'Shape',
-            items: _itemsPostType,
+            items: store.postTypes,
             onSaved: (val) {
               postTypeController.text = val as String;
               store.state.postType = val;
@@ -159,7 +109,7 @@ class _PostFormWidgetState extends State<PostFormWidget> {
               ),
             ),
             labelText: 'Shape',
-            items: _itemsIluminationType,
+            items: store.iluminationTypes,
             onSaved: (val) {
               postTypeController.text = val as String;
               store.state.iluminationType = val;
@@ -179,10 +129,22 @@ class _PostFormWidgetState extends State<PostFormWidget> {
               ),
             ),
             labelText: 'Shape',
-            items: _itemsPostStatus,
+            items: store.statusPosts,
             onSaved: (val) {
               postStatusController.text = val as String;
               store.state.postState = val;
+            },
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFieldWidget(
+            controller: addressController,
+            prefixIcon: const Icon(Icons.home),
+            label: 'Endereço',
+            onSaved: (value) {
+              addressController.text = value as String;
+              store.state.address = value;
             },
           ),
           const SizedBox(

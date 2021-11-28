@@ -114,6 +114,32 @@ class OcurrencyRepository extends Disposable {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getProblemInfo() async {
+    List<Map<String, dynamic>> problems = [];
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('utils')
+          .doc('problems')
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      snapshot.data()!.forEach((key, value) {
+        problems.add({
+          'value': value,
+          'label': value,
+        });
+      });
+
+      return problems;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<OcurrencyModel> getOcurrency(int protocol) async {
     try {
       var snapshot = await FirebaseFirestore.instance

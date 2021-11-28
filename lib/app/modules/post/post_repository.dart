@@ -89,6 +89,84 @@ class PostRepository extends Disposable {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getPostType() async {
+    List<Map<String, dynamic>> postTypes = [];
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('utils')
+          .doc('postType')
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      snapshot.data()!.forEach((key, value) {
+        postTypes.add({
+          'value': value,
+          'label': value,
+        });
+      });
+
+      return postTypes;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getIluminationType() async {
+    List<Map<String, dynamic>> iluminationType = [];
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('utils')
+          .doc('iluminationType')
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      snapshot.data()!.forEach((key, value) {
+        iluminationType.add({
+          'value': value,
+          'label': value,
+        });
+      });
+
+      return iluminationType;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getStatusType() async {
+    List<Map<String, dynamic>> statusType = [];
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('utils')
+          .doc('postStatus')
+          .get()
+          .catchError(
+        (onError) {
+          throw onError;
+        },
+      );
+
+      snapshot.data()!.forEach((key, value) {
+        statusType.add({
+          'value': value,
+          'label': value,
+        });
+      });
+
+      return statusType;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> deletePost(String postNumber) async {
     try {
       await FirebaseFirestore.instance

@@ -21,33 +21,18 @@ class OcurrencyFormWidget extends StatefulWidget {
 }
 
 class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController postTypeController = TextEditingController();
+  XFile? photo = XFile('');
+  final ImagePicker imagePicker = ImagePicker();
+  File photoToFile = File('');
+  final OcurrencyImagePickerStore imagePickerStore = Modular.get();
+  final OcurrencyStore store = Modular.get();
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey();
-    final TextEditingController descriptionController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController postTypeController = TextEditingController();
-    XFile? photo = XFile('');
-    final ImagePicker imagePicker = ImagePicker();
-    File photoToFile = File('');
-    final OcurrencyImagePickerStore imagePickerStore = Modular.get();
-    final OcurrencyStore store = Modular.get();
-
-    final List<Map<String, dynamic>> _items = [
-      {
-        'value': 'Poste',
-        'label': 'Poste',
-      },
-      {
-        'value': 'Cabo',
-        'label': 'Cabo',
-      },
-      {
-        'value': 'Iluminação',
-        'label': 'Iluminação',
-      },
-    ];
-
     return Form(
       key: _formKey,
       child: Column(
@@ -118,8 +103,8 @@ class _OcurrencyFormWidgetState extends State<OcurrencyFormWidget> {
                 borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
             ),
-            labelText: 'Shape',
-            items: _items,
+            labelText: 'Problema',
+            items: store.problems,
             onSaved: (val) {
               postTypeController.text = val as String;
               store.state.problemType = val;

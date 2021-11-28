@@ -11,6 +11,7 @@ import 'package:recuperaposte/app/stores/user_store.dart';
 class OcurrencyStore extends NotifierStore<Exception, OcurrencyModel> {
   final OcurrencyRepository _repository = Modular.get();
   final UserStore userStore = Modular.get();
+  List<Map<String, dynamic>> problems = [];
 
   OcurrencyStore() : super(OcurrencyModel(status: 1, urgency: 'Baixa'));
 
@@ -53,6 +54,22 @@ class OcurrencyStore extends NotifierStore<Exception, OcurrencyModel> {
 
       setLoading(false);
       return response;
+    } catch (e) {
+      setLoading(false);
+      log(e.toString());
+      throw Exception();
+    }
+  }
+
+  Future<void> getProblemInfo() async {
+    setLoading(true);
+
+    try {
+      problems = await _repository.getProblemInfo().catchError((onError) {
+        log(onError.toString());
+      });
+
+      setLoading(false);
     } catch (e) {
       setLoading(false);
       log(e.toString());

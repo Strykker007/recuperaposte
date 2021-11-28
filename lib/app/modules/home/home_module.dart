@@ -7,7 +7,11 @@ import 'package:recuperaposte/app/modules/home/stores/ocurrency_list_store.dart'
 import 'package:recuperaposte/app/modules/home/stores/search_textfield_store.dart';
 // import 'package:recuperaposte/app/modules/login/pages/login_page.dart';
 import 'package:recuperaposte/app/modules/ocurrency/ocurrency_module.dart';
+import 'package:recuperaposte/app/modules/ocurrency/ocurrency_repository.dart';
+import 'package:recuperaposte/app/modules/ocurrency/stores/ocurrency_store.dart';
 import 'package:recuperaposte/app/modules/post/post_module.dart';
+import 'package:recuperaposte/app/modules/post/post_repository.dart';
+import 'package:recuperaposte/app/modules/post/stores/post_store.dart';
 import 'home_repository.dart';
 import 'pages/user_manager_page.dart';
 import 'stores/edit_user_image_picked_store.dart';
@@ -26,6 +30,10 @@ class HomeModule extends Module {
     Bind.lazySingleton((i) => UserManagerStore()),
     Bind.lazySingleton((i) => SearchTextFieldStore()),
     Bind.lazySingleton((i) => OcurrencyListStore()),
+    Bind.lazySingleton((i) => OcurrencyStore()),
+    Bind.lazySingleton((i) => OcurrencyRepository()),
+    Bind.lazySingleton((i) => PostStore()),
+    Bind.lazySingleton((i) => PostRepository()),
   ];
 
   @override
