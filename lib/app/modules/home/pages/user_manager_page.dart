@@ -111,12 +111,10 @@ class _UserManagerPageState
                         )
                       : Expanded(
                           child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics(),
-                            ),
                             child: RefreshIndicator(
                               onRefresh: () async {},
                               child: ListView.builder(
+                                physics: const ScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: store.state.length,
                                 itemBuilder: (context, index) {

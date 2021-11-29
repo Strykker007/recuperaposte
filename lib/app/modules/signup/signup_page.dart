@@ -146,11 +146,11 @@ class SignupPageState extends ModularState<SignupPage, SignupStore> {
                                   controller: cpfController,
                                   onSaved: (value) {
                                     cpfController.text = value as String;
-                                    store.state.address = value;
+                                    store.state.cpf = value;
                                     store.updateForm(store.state);
                                   },
                                   onChanged: (value) {
-                                    store.state.address = value;
+                                    store.state.cpf = value;
                                     store.updateForm(store.state);
                                   },
                                   validator: (text) {
